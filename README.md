@@ -13,8 +13,8 @@
 
 以下定義兩張數字相同的牌為pair
 ```
-
-
+## UML
+![整體UML](https://raw.githubusercontent.com/nori243/QA_Project/master/uml/total.png)
 ## 功能
 #### 功能列
 - 開始新遊戲
