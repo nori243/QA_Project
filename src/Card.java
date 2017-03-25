@@ -4,7 +4,7 @@ public class Card
 	private String suit;
 	private int num;
 	
-	public Card(int suit,int num) throws Exception
+	public Card(int suit,int num) 
 	{
 		
 		if(num >= 0 && num <= 13)
@@ -13,7 +13,7 @@ public class Card
 		}
 		else
 		{
-			throw new Exception("card num error with number " + num);
+			num = 0;
 		}
 		
 		
@@ -35,11 +35,11 @@ public class Card
 		}
 		else if(suit == 0)
 		{
-			this.suit = "joke";
+			this.suit = "joker";
 		}
 		else
 		{
-			throw new Exception("card suit error");
+			suit = 0;
 		}
 	}
 	

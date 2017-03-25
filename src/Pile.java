@@ -45,24 +45,64 @@ public class Pile
 		return pile.size();
 	}
 	
-	public boolean removeCard(Card card)
+	public int findCard(Card card)
 	{
-		if(pile.isEmpty())
-			return false;
-		
-		for(int i=0;i<getAmountOfCard();i++)
+		if(!pile.isEmpty())
 		{
-			if(pile.get(i).IsPair(card))
+			for(int i=0;i<getAmountOfCard();i++)
 			{
-				if(pile.get(i).IsSuitSame(card))
+				if(pile.get(i).IsPair(card) && pile.get(i).IsSuitSame(card))
 				{
-					pile.remove(i);
-					return true;
+					return i;					
 				}
 			}
 		}
 		
+		return -1;
+	}
+	
+	public int findPair(Card card)
+	{
+		if(!pile.isEmpty())
+		{
+			for(int i=0;i<getAmountOfCard();i++)
+			{
+				if(pile.get(i).IsPair(card))
+				{
+					return i;					
+				}
+			}
+		}
+		
+		return -1;
+	}
+	
+	public boolean removeCard(Card card)
+	{
+		int index = findCard(card);
+		if(index >= 0)
+		{
+			pile.remove(index);
+			return true;
+		}
+		
 		return false;
+	}
+	
+	public boolean removePair(Card card)
+	{
+		int index_1 = findPair(card);
+		int index_2 = findCard(card);
+		if(index_1 >= 0 && index_2 >= 0)
+		{
+			pile.remove(index_1);
+			pile.remove(index_2);
+			return true;
+		}
+		
+		
+		return false;
+		
 	}
 	
 	public String ShowCards()
@@ -75,5 +115,14 @@ public class Pile
 		
 		return rt;
 	}
-
+	
+	public Card getCard(int index) throws Exception
+	{
+		if(index >= this.getAmountOfCard())
+		{
+			throw new Exception("");
+		}
+		
+		return pile.get(index);
+	}
 }
