@@ -7,14 +7,6 @@ public class Card
 	public Card(int suit,int num) 
 	{
 		
-		if(num >= 0 && num <= 13)
-		{
-			this.num = num;
-		}
-		else
-		{
-			num = 0;
-		}
 		
 		
 		if(suit == 1)
@@ -41,6 +33,17 @@ public class Card
 		{
 			suit = 0;
 		}
+		
+		if(num > 0 && num <= 13)
+		{
+			this.num = num;
+		}
+		else
+		{
+			num = 0;
+			this.suit = "joker";			
+		}
+		
 	}
 	
 	/*---compare----*/

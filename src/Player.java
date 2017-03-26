@@ -36,14 +36,14 @@ public class Player
 		return pile.removeCard(card);
 	}
 	
-	public int findCard(Card card)
+	public int getCardIndex(Card card)
 	{
-		return pile.findCard(card);
+		return pile.getCardIndex(card);
 	}
 	
-	public int findPair(Card card)
+	public int getPairIndex(Card card)
 	{
-		return pile.findPair(card);
+		return pile.getPairIndex(card);
 	}
 	
 	/**/
@@ -51,7 +51,7 @@ public class Player
 	{
 		int index = -1;
 
-		index = pile.findPair(new Card(0,0));
+		index = pile.getPairIndex(new Card(0,0));
 					
 		return index;
 	}

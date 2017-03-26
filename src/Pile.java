@@ -45,7 +45,7 @@ public class Pile
 		return pile.size();
 	}
 	
-	public int findCard(Card card)
+	public int getCardIndex(Card card)
 	{
 		if(!pile.isEmpty())
 		{
@@ -61,7 +61,7 @@ public class Pile
 		return -1;
 	}
 	
-	public int findPair(Card card)
+	public int getPairIndex(Card card)
 	{
 		if(!pile.isEmpty())
 		{
@@ -79,7 +79,7 @@ public class Pile
 	
 	public boolean removeCard(Card card)
 	{
-		int index = findCard(card);
+		int index = getCardIndex(card);
 		if(index >= 0)
 		{
 			pile.remove(index);
@@ -91,8 +91,8 @@ public class Pile
 	
 	public boolean removePair(Card card)
 	{
-		int index_1 = findPair(card);
-		int index_2 = findCard(card);
+		int index_1 = getPairIndex(card);
+		int index_2 = getCardIndex(card);
 		if(index_1 >= 0 && index_2 >= 0)
 		{
 			pile.remove(index_1);
