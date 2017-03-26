@@ -65,11 +65,11 @@
   - 丟出手排中有2張以上，數字最小的2張牌
     
 ------
-# 功能驗證方式 
+# 功能規格
 ## 功能列
 - 功能列 開始新遊戲
 
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- | 
 | 輸入使用者名稱 | 無輸入按確認，設為預設名稱user。該名稱需在主畫面中顯示 |
 | 輸入使用者名稱 | 輸入英文與數字外的字元，跳出輸入錯誤，顯示可輸入的範圍，並讓使用者重新輸入|
@@ -85,7 +85,7 @@
 
 - 功能列 離開遊戲
 
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- | 
 | 彈跳視窗 | 需顯示文字"是否確定離開遊戲?離開遊戲並不會保留目前遊戲進度" |
 | 彈跳視窗 | 需顯示按鈕"是，離開遊戲" 與 "否，繼續遊戲" |
@@ -97,25 +97,25 @@
  ## 主畫面 
  - 主畫面 上方畫面
  
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- |
 | 玩家名稱 | 需在上方畫面的上方顯示player2名稱 |
 
  - 主畫面 左方畫面
  
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- |
 | 玩家名稱 | 需在左方畫面的上方顯示player1名稱 |
 
  - 主畫面 右方畫面
  
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- |
 | 玩家名稱 | 需在右方畫面的上方顯示player3名稱 |
  
 - 主畫面 中間畫面
  
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- |
 | 已丟出的pair | 需顯示最新一組丟出的pair |
 | 抽排 | 顯示之牌數與內容須與該玩家相符 |
@@ -128,7 +128,7 @@
 
 - 主畫面 下方畫面
  
-| 功能 | 驗證方法 | 
+| 功能 | 規格 | 
 | :----: | :---- |
 | 玩家名稱 | 需在下方畫面的下方顯示玩家名稱 |
 | 結束回合按鈕 | 需在右下方顯示 |
@@ -141,5 +141,63 @@
 | 玩家手牌 | 最多可同時點選兩張牌，超過會將原本點選的牌復位後，改選擇最新選擇的牌 |
 
  
-  
-  
+# 驗證方式
+## Class Card 
+- constructor
+
+| 功能 | 驗證方式 | 預期結果 |
+| :----: | :----: | :---- |
+|  | 輸入 | 輸出 |
+| | suit = 0 ,num = 0 | Joker 0 |
+| | suit < 0 ,num = 0 | Joker 0 |
+| | suit > 0 ,num = 0 | Joker 0 |
+| | suit = 0 ,num > 0 | Joker 0 |
+| | suit = 0 ,num < 0 | Joker 0 |
+| i > 0 | suit = 1 ,num = i | spades i |
+| i > 0 | suit = 2 ,num = i | hearts i |
+| i > 0 | suit = 3 ,num = i | diamonds i |
+| i > 0 | suit = 4 ,num = i | clubs i |
+
+- IsSuitSame
+
+| 功能 | 驗證方式 | 預期結果 |
+| :----: | :----: | :---- |
+|  | 輸入 | 輸出 |
+| | **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
+| | **card_1** suit = i num = j , **card_2** suit = i,num = m | true |
+| | **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
+| | **card_1** suit = i num = j , **card_2** suit = n,num = j | false |
+
+- IsPair
+
+| 功能 | 驗證方式 | 預期結果 |
+| :----: | :----: | :---- |
+|  | 輸入 | 輸出 |
+| | **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
+| | **card_1** suit = i num = j , **card_2** suit = n,num = j | true |
+| | **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
+| | **card_1** suit = i num = j , **card_2** suit = i,num = m | false |
+
+- getSuit
+
+| 功能 | 驗證方式 | 預期結果 |
+| :----: | :----: | :---- |
+|  | 輸入 | 輸出 |
+| i = 0 | card suit = 0, num = i | joker |
+| i > 0 | card suit = 1, num = i | spades |
+| i > 0 | card suit = 2, num = i | hearts |
+| i > 0 | card suit = 3, num = i | diamonds |
+| i > 0 | card suit = 4, num = i | clubs |
+
+
+- getNum
+
+| 功能 | 驗證方式 | 預期結果 |
+| :----: | :----: | :---- |
+|  | 輸入 | 輸出 |
+|  | card suit = joker, num = 0 | 0 |
+| i > 0 | card suit = 1, num = i | i |
+| i > 0 | card suit = 2, num = i | i |
+| i > 0 | card suit = 3, num = i | i |
+| i = 0 | card suit = 4, num = i | i |
+
