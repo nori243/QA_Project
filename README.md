@@ -145,7 +145,7 @@
 ## Class Card 
 - constructor
 
-| 功能 | 驗證方式 | 預期結果 |
+|  | 驗證方式 | 預期結果 |
 | :----: | :----: | :---- |
 |  | 輸入 | 輸出 |
 | | suit = 0 ,num = 0 | Joker 0 |
@@ -160,27 +160,27 @@
 
 - IsSuitSame
 
-| 功能 | 驗證方式 | 預期結果 |
-| :----: | :----: | :---- |
-|  | 輸入 | 輸出 |
-| | **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
-| | **card_1** suit = i num = j , **card_2** suit = i,num = m | true |
-| | **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
-| | **card_1** suit = i num = j , **card_2** suit = n,num = j | false |
+| 驗證方式 | 預期結果 |
+| :----: | :---- |
+| 輸入 | 輸出 |
+| **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = i,num = m | true |
+| **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
+| **card_1** suit = i num = j , **card_2** suit = n,num = j | false |
 
 - IsPair
 
-| 功能 | 驗證方式 | 預期結果 |
-| :----: | :----: | :---- |
-|  | 輸入 | 輸出 |
-| | **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
-| | **card_1** suit = i num = j , **card_2** suit = n,num = j | true |
-| | **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
-| | **card_1** suit = i num = j , **card_2** suit = i,num = m | false |
+| 驗證方式 | 預期結果 |
+| :----: | :---- |
+| 輸入 | 輸出 |
+| **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = n,num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
+| **card_1** suit = i num = j , **card_2** suit = i,num = m | false |
 
 - getSuit
 
-| 功能 | 驗證方式 | 預期結果 |
+| | 驗證方式 | 預期結果 |
 | :----: | :----: | :---- |
 |  | 輸入 | 輸出 |
 | i = 0 | card suit = 0, num = i | joker |
@@ -192,7 +192,7 @@
 
 - getNum
 
-| 功能 | 驗證方式 | 預期結果 |
+|  | 驗證方式 | 預期結果 |
 | :----: | :----: | :---- |
 |  | 輸入 | 輸出 |
 |  | card suit = joker, num = 0 | 0 |
