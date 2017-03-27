@@ -142,7 +142,7 @@
 
  
 # 驗證方式
-## Class Card 
+## class Card 
 - constructor
 
 |  | 驗證方式 | 預期結果 |
@@ -163,31 +163,31 @@
 | 驗證方式 | 預期結果 |
 | :----: | :---- |
 | 輸入 | 輸出 |
-| **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
-| **card_1** suit = i num = j , **card_2** suit = i,num = m | true |
-| **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
-| **card_1** suit = i num = j , **card_2** suit = n,num = j | false |
+| **card_1** suit = i num = j , **card_2** suit = i num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = i num = m | true |
+| **card_1** suit = i num = j , **card_2** suit = n num = m | false |
+| **card_1** suit = i num = j , **card_2** suit = n num = j | false |
 
 - IsPair
 
 | 驗證方式 | 預期結果 |
 | :----: | :---- |
 | 輸入 | 輸出 |
-| **card_1** suit = i num = j , **card_2** suit = i,num = j | true |
-| **card_1** suit = i num = j , **card_2** suit = n,num = j | true |
-| **card_1** suit = i num = j , **card_2** suit = n,num = m | false |
-| **card_1** suit = i num = j , **card_2** suit = i,num = m | false |
+| **card_1** suit = i num = j , **card_2** suit = i num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = n num = j | true |
+| **card_1** suit = i num = j , **card_2** suit = n num = m | false |
+| **card_1** suit = i num = j , **card_2** suit = i num = m | false |
 
 - getSuit
 
 | | 驗證方式 | 預期結果 |
 | :----: | :----: | :---- |
 |  | 輸入 | 輸出 |
-| i = 0 | card suit = 0, num = i | joker |
-| i > 0 | card suit = 1, num = i | spades |
-| i > 0 | card suit = 2, num = i | hearts |
-| i > 0 | card suit = 3, num = i | diamonds |
-| i > 0 | card suit = 4, num = i | clubs |
+| i = 0 | card suit = 0 num = i | joker |
+| i > 0 | card suit = 1 num = i | spades |
+| i > 0 | card suit = 2 num = i | hearts |
+| i > 0 | card suit = 3 num = i | diamonds |
+| i > 0 | card suit = 4 num = i | clubs |
 
 
 - getNum
@@ -195,9 +195,67 @@
 |  | 驗證方式 | 預期結果 |
 | :----: | :----: | :---- |
 |  | 輸入 | 輸出 |
-|  | card suit = joker, num = 0 | 0 |
-| i > 0 | card suit = 1, num = i | i |
-| i > 0 | card suit = 2, num = i | i |
-| i > 0 | card suit = 3, num = i | i |
-| i = 0 | card suit = 4, num = i | i |
+|  | card suit = joker num = 0 | 0 |
+| i > 0 | card suit = 1 num = i | i |
+| i > 0 | card suit = 2 num = i | i |
+| i > 0 | card suit = 3 num = i | i |
+| i = 0 | card suit = 4 num = i | i |
 
+
+## class Pile
+
+- init
+
+| 驗證方式 | 預期結果 |
+| :----: | :---- |
+| 將任何牌堆初始化 | 牌堆一數字與花色排序，並有53張牌 |
+
+- addCard
+
+| 驗證方式 | 預期結果 |
+| :----: | :---- |
+| 輸入 | 輸出 |
+| 傳入任何Card物件 | 將傳入的Card物件加至Pile中 |
+
+- getAmountOfCard
+
+| 驗證方式 | 預期結果 |
+| :----: | :---- |
+| 取出排堆中的Card數量 | 數量與Pile中Card物件數相等 |
+
+- getCardIndex
+
+| 驗證方式 | 預期結果 |
+| :---- | :---- |
+| 傳入Card在Pile中 | 回傳該Card在該Pile中的index |
+| 傳入Card不在Pile中 | 回傳 -1 |
+
+- getPairIndex
+
+| 驗證方式 | 預期結果 |
+| :---- | :---- |
+| 傳入Card在Pile中**可找到**相對的pair | 回傳該pair在該Pile中的index |
+| 傳入Card在Pile中**無法找到**相對的pair | 回傳 -1 |
+
+- removeCard
+
+| | 驗證方式 | 預期結果 |
+| :---- | :----: | :---- |
+| 傳入Card在Pile中 | 用getCardIndex搜尋後結果為-1 | 移除該Card，回傳true |
+| 傳入Card不在Pile中 | 用getCardIndex搜尋後結果為-1 | 回傳false |
+
+- removePair
+
+| | 驗證方式 | 預期結果 |
+| :---- | :----: | :---- |
+| 傳入Card在Pile中，傳入Card在Pile中**可找到**相對的pair | 用getPairIndex搜尋後結果為-1 | 移除該Pair，回傳true |
+| 傳入Card在Pile中，傳入Card在Pile中**無法找到**相對的pair | 用getPairIndex搜尋後結果為-1 | 回傳false |
+| 傳入Card不在Pile中，傳入Card在Pile中**可找到**相對的pair | 用getPairIndex搜尋後結果為-1 | 回傳false |
+| 傳入Card不在Pile中，傳入Card在Pile中**無法找到**相對的pair | 用getPairIndex搜尋後結果為-1 | 回傳false |
+
+- getCard
+
+| | 驗證方式 | 預期結果 |
+| :---- | :----: | :---- |
+| i <= Pile卡片數量 | index = i | 回傳在Pile中該index的Card  |
+| i > Pile卡片數量 | index = i | 拋出例外  |
