@@ -16,6 +16,7 @@ public class Pile
 		init();
 	}
 	
+	/*TODO any else method to do init?*/
 	public void init()
 	{
 		try
@@ -120,7 +121,7 @@ public class Pile
 	{
 		if(index >= this.getAmountOfCard())
 		{
-			throw new Exception("");
+			throw new Exception("index out of range");
 		}
 		
 		return pile.get(index);
