@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Pile 
@@ -13,7 +14,7 @@ public class Pile
 	public Pile()
 	{		
 		pile = new ArrayList<Card>();
-		init();
+	
 	}
 	
 	/*TODO any else method to do init?*/
@@ -126,4 +127,31 @@ public class Pile
 		
 		return pile.get(index);
 	}
+	
+	public void shufflingCard()
+	{
+		Random r = new Random();
+		ArrayList<Card> newPile = new ArrayList<Card>();
+		
+		for(int i = 0; i < pile.size() ; i++)
+		{
+			newPile.add(null);			
+		}
+		
+		for(int i = 0; i < pile.size() ; i++)
+		{
+			int index = r.nextInt(newPile.size());
+			while(newPile.get(index) != null)
+			{
+				index = index + 1;
+				if(index >= newPile.size())
+					index = 0;
+			}
+				
+			newPile.set(index, pile.get(i));
+		}
+		
+		pile = newPile;
+	}
+
 }
