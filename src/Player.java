@@ -34,8 +34,9 @@ public class Player
 	{
 		return pile.getAmountOfCard();
 	}
-	
+
 	/*----player actions----*/
+	
 	public void addCard(Card card)
 	{
 		pile.addCard(card);
@@ -44,6 +45,33 @@ public class Player
 	public boolean removeCard(Card card)
 	{
 		return pile.removeCard(card);
+	}
+	public boolean removePair(int index)
+	{
+		Card pair = null;
+		try 
+		{
+			pair = pile.getCard(index);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pile.removePair(pair);
+	}
+	
+	public Card getCard(int i)
+	{
+		Card find = null;
+		try 
+		{
+			find = pile.getCard(i);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return find;
 	}
 	
 	public int getCardIndex(Card card)
