@@ -25,6 +25,16 @@ public class Player
 		this.name = name;
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public int getAmountOfCard()
+	{
+		return pile.getAmountOfCard();
+	}
+	
 	/*----player actions----*/
 	public void addCard(Card card)
 	{
@@ -46,15 +56,17 @@ public class Player
 		return pile.getPairIndex(card);
 	}
 	
+	
 	/**/
-	public int checkJoker()
+	public boolean hasJoker()
 	{
-		int index = -1;
-
-		index = pile.getPairIndex(new Card(0,0));
+		int index = pile.getCardIndex(new Card(0,0));
+		if(index >= 0)
+			return true;
 					
-		return index;
+		return false;
 	}
+	
 	public String showCard()
 	{
 		return pile.ShowCards();
