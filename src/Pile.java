@@ -53,7 +53,7 @@ public class Pile
 		{
 			for(int i=0;i<getAmountOfCard();i++)
 			{
-				if(pile.get(i).IsPair(card) && pile.get(i).IsSuitSame(card))
+				if(pile.get(i).getNum() == card.getNum() && pile.get(i).IsSuitSame(card))
 				{
 					return i;					
 				}
@@ -61,6 +61,22 @@ public class Pile
 		}
 		
 		return -1;
+	}
+	
+	public boolean hasPair()
+	{
+		boolean rt = false;
+		if(pile.size() <= 1)
+			return false;
+		for(int i=0 ; i<pile.size(); i++)
+		{
+			int result = getPairIndex(pile.get(i));
+			if(result >= 0)
+				return true;
+			else
+				rt = false;
+		}
+		return rt;
 	}
 	
 	public int getPairIndex(Card card)
@@ -93,13 +109,19 @@ public class Pile
 	
 	public boolean removePair(Card card)
 	{
-		int index_1 = getPairIndex(card);
-		int index_2 = getCardIndex(card);
-		if(index_1 >= 0 && index_2 >= 0)
+		int index = getCardIndex(card);
+		int pairIndex = getPairIndex(card);
+		if(index >= 0 && pairIndex >= 0)
 		{
-			pile.remove(index_1);
-			pile.remove(index_2);
-			return true;
+			pile.remove(index);
+			index = getPairIndex(card);
+			
+			if(index >= 0)
+			{
+				pile.remove(index);
+				return true;
+			}		
+			
 		}
 		
 		
@@ -114,6 +136,9 @@ public class Pile
 		{
 			rt = rt + pile.get(i).getSuit() + " " + pile.get(i).getNum() + "\n";
 		}
+		
+		if(rt.equals(""))
+			rt = "empty";
 		
 		return rt;
 	}

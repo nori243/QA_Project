@@ -5,10 +5,7 @@ public class Card
 	private int num;
 	
 	public Card(int suit,int num) 
-	{
-		
-		
-		
+	{		
 		if(suit == 1)
 		{
 			this.suit = "spades";
@@ -57,7 +54,7 @@ public class Card
 	
 	public boolean IsPair(Card card)
 	{
-		if(card.getNum() == this.getNum())
+		if(!this.IsSuitSame(card) && (card.getNum() == this.getNum()))
 			return true;
 		else
 			return false;

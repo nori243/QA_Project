@@ -46,18 +46,9 @@ public class Player
 	{
 		return pile.removeCard(card);
 	}
-	public boolean removePair(int index)
-	{
-		Card pair = null;
-		try 
-		{
-			pair = pile.getCard(index);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return pile.removePair(pair);
+	public boolean removePair(Card card)
+	{	
+		return pile.removePair(card);
 	}
 	
 	public Card getCard(int i)
@@ -69,7 +60,7 @@ public class Player
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+			find = null;
 		}
 		return find;
 	}
@@ -86,6 +77,12 @@ public class Player
 	
 	
 	/**/
+	
+	public boolean hasPair()
+	{
+		return pile.hasPair();
+	}
+	
 	public boolean hasJoker()
 	{
 		int index = pile.getCardIndex(new Card(0,0));
