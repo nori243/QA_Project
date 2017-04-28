@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class GameFrame extends JFrame
 {
 	private String title = "Joker";
-	private static final int width = 1100;
+	private static final int width = 1200;
 	private static final int height = 700;
 	private CenterController controller = CenterController.getInstance();
 	
@@ -36,6 +36,7 @@ public class GameFrame extends JFrame
 		
 		this.setMainLayout();
 		this.setResizable(false);
+		//controller.DoSomething()
 	}
 	
 	
@@ -63,56 +64,39 @@ public class GameFrame extends JFrame
 		player_3 = new JPanel(new GridLayout(14,1));
 		user = new JPanel();
 		center = new JPanel();
-		
-		/*ImageIcon[] img = new ImageIcon[2];
-		img[0] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//back.gif");
-		img[1] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//back.gif");
-		user = new JLabel(img[0]);
-		
-		c.add(user,0);*/
-	//	c.add(user,1);
-		/*ImageIcon img[] = new ImageIcon[2];
-		img[0] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//back.gif");
 
-		img[1] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//back.gif");
-		
-		user[] = new JLabel(img[]);*/
-		
-		
 
 		setPlayerPic(user,0);
-	
-		//setLeftLayout()
 		setPlayerPic(player_1,1);
 		setPlayerPic(player_2,2);
 		setPlayerPic(player_3,3);
 		
-		//TODO 排版/字型
-	}
-	
-	private void setLeftLayout()
-	{
-		
-	}
-	
-	private void setPlayerPic(JPanel user,int playerIndex) 
-	{
-		setPic(user,controller.getPlayerPileInfo(playerIndex));
+		//TODO 排版/字型/listener/observer
 	}
 
-	private void setPic(JPanel user,String[] fileName)
+	private void setPlayerPic(JPanel user,int playerIndex) 
 	{
-		/*ImageIcon img = new ImageIcon(System.getProperty("user.dir")+"//cardPic//" + fileName[0]+".gif");
-		JLabel j = new JLabel(img);
-		user.add(j);*/
-		JLabel[] container = new JLabel[fileName.length];
+		setPic(user,controller.getPlayerPileInfo(playerIndex),playerIndex);
+	}
+
+	private void setPic(JPanel user,String[] fileName,int playerIndex)
+	{
+		CardButton[] container = new CardButton[fileName.length];
 		ImageIcon img[] = new ImageIcon[fileName.length];
 		
 		for(int i=0; i<fileName.length; i++)
 		{
-			img[i] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//" + "back" + ".gif");
+			String name;
+			if(user == this.user)
+				name = fileName[i];
+			else
+				name = "back";
+			
+			img[i] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//" + name + ".gif");
 			System.out.println(fileName[i]);
-			container[i] = new JLabel(img[i]);
+			container[i] = new CardButton(img[i],i);
+			if(playerIndex >= 0)
+				container[i].setPlayerIndex(playerIndex);
 			user.add(container[i]);
 		}
 		

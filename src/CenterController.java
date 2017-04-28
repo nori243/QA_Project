@@ -45,4 +45,25 @@ public class CenterController
 		player.get(0).setName(name);
 	}
 	
+	public int getPlayerNowIndex()
+	{
+		return controller.playerIndexNow;
+	}
+	
+	public String[] getPileInfo(Pile pile)
+	{
+		String[] cardInfo = new String[pile.getAmountOfCard()];
+
+		cardInfo = pile.showCards().split("\n");		
+		
+		return cardInfo;
+	}
+	
+	public String[] getPlayerPileInfo(int playerIndex)
+	{
+		Player p = this.player.get(playerIndex);
+		String[] cardInfo= getPileInfo(p.getPile());
+				
+		return cardInfo;
+	}
 }
