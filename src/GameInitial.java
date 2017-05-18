@@ -8,7 +8,7 @@ public class GameInitial
 	
 	private Pile orgCard = new Pile();
 	public static int startPlayerIndex ;
-	private boolean clockWise ;
+	public static boolean clockWise ;
 	private String name = "user";
 	ArrayList<Player> player;
 	
