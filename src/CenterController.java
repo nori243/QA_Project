@@ -30,13 +30,17 @@ public class CenterController
 	
 	public void playerInitial()
 	{
+		//playerIndex 0 = user
 		player = new ArrayList<Player>();
 		
 		player.add(new Player(userName,new Pile()));		
 		for(int i=1; i<CenterController.playerNumber;i++)
 		{
-			player.add(new Player("player"+i,new Pile()));
+			player.add(new AIPlayer("player"+i,new Pile()));
 		}
+
+		initial = GameInitial.getInstance(player);
+		controller = GameController.getInstance(player);		
 	}
 
 	public void setName(String name)
