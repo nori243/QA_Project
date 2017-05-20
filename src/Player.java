@@ -75,6 +75,12 @@ public class Player
 		return pile.getPairIndex(card);
 	}
 	
+	public Pile getPile()
+	{
+		//TODO
+		return this.pile;
+	}
+	
 	
 	/**/
 	
@@ -94,7 +100,13 @@ public class Player
 	
 	public String showCard()
 	{
-		return pile.ShowCards();
+		return pile.showCards();
 	}
+	
+	public void removeAllCard()
+	{
+		pile.removeAll();
+	}
+	
 	
 }
