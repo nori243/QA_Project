@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Pile 
+public class Pile
 {
 	public static int CARD_NUM = 53;
 	public static int CARD_NUM_PER_SUIT = 13;
@@ -20,6 +20,7 @@ public class Pile
 	/*TODO any else method to do init?*/
 	public void init()
 	{
+		removeAll();
 		try
 		{
 			for(int i=0;i<SUIT_NUM;i++)
@@ -129,7 +130,15 @@ public class Pile
 		
 	}
 	
-	public String ShowCards()
+	public void removeAll()
+	{
+		while(0<getAmountOfCard())
+		{
+			pile.remove(0);
+		}
+	}
+	
+	public String showCards()
 	{
 		String rt = "";
 		for(int i=0;i<getAmountOfCard();i++)
@@ -178,5 +187,6 @@ public class Pile
 		
 		pile = newPile;
 	}
+
 
 }

@@ -10,7 +10,7 @@ public class GameInitial
 	public static int startPlayerIndex ;
 	public static boolean clockWise ;
 	private String name = "user";
-	ArrayList<Player> player;
+	private ArrayList<Player> player;
 	
 	private GameInitial(ArrayList<Player> player)
 	{
@@ -28,10 +28,16 @@ public class GameInitial
 		return uniqueGI;
 	}
 	
+	
 	public void initGame()
-	{
+	{		
+		for(int i = 0;i < CenterController.playerNumber ;i++)
+		{
+			player.get(i).removeAllCard();
+		}
+		
 		orgCard.init();
-		this.shufflingCard();
+		shufflingCard();
 		chooseStartPlayer();
 		chooseOrder();
 		dealing();
@@ -48,7 +54,7 @@ public class GameInitial
 	private void chooseStartPlayer()
 	{
 		Random r = new Random();
-		this.startPlayerIndex = r.nextInt(CenterController.playerNumber);		
+		startPlayerIndex = r.nextInt(CenterController.playerNumber);		
 	}
 	
 	public void shufflingCard()
@@ -63,11 +69,12 @@ public class GameInitial
 			order = -1;
 		else
 			order = 1;
-		
+
 		for(int i = 0 ;i < orgCard.getAmountOfCard() ; i++)
 		{
 			int playerIndex = ((startPlayerIndex + i*order)) % CenterController.playerNumber + CenterController.playerNumber;
 			playerIndex = playerIndex % CenterController.playerNumber;
+			
 			try 
 			{
 				player.get(playerIndex).addCard(orgCard.getCard(i));
