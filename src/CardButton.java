@@ -57,15 +57,7 @@ public class CardButton extends JButton
 				// TODO Auto-generated method stub
 				
 			}});
-		this.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				
-					
-			}
-		});
+		
 		
 	}
 	
