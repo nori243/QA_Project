@@ -29,10 +29,13 @@ public class GameController
 	
 	public String turn(int cardIndex)
 	{
-		//TODO ด๚ธี
-		removePair();
-		chooseCard(cardIndex);
-		removePair();
+		if(cardIndex != -1)
+		{
+			removePair();
+			chooseCard(cardIndex);
+			removePair();
+		}		
+		
 		changeGameState();
 		changePlayer();
 		return gameState;
@@ -54,15 +57,29 @@ public class GameController
 		
 	}
 	
-	private int getPlayerNextIndex()
+	public int getPlayerNextIndex()
 	{
-		int clock;
+		int clock,index;
+		
 		if(GameInitial.clockWise == true)
 			clock = 1;
 		else
 			clock = -1;
 		
-		return (playerIndexNow + clock)% CenterController.playerNumber;
+		index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
+		index = index % CenterController.playerNumber;
+		
+		while(gameState.equals(""))
+		{
+			if(player.get(index).getAmountOfCard() >= 0)
+				break;
+			index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
+			index = index % CenterController.playerNumber;
+			System.out.println(index);
+		}
+
+		
+		return index;
 	}
 
 	public void removePair()
@@ -95,8 +112,6 @@ public class GameController
 	}	
 
 	
-	/*ด๚ธี*/
-
 	private void changeGameState()
 	{
 		if(player.get(USERINDEX).getAmountOfCard() > 0 && player.get(1).getAmountOfCard() <= 0 && player.get(2).getAmountOfCard() <= 0 
@@ -108,13 +123,15 @@ public class GameController
 		{
 			if(player.get(USERINDEX).getAmountOfCard() <= 0)
 				gameState = "Win";
+			else
+				gameState = "";
 
 		}
 	}
 	
 	public void changePlayer()
 	{
-		playerIndexNow = (playerIndexNow + 1) % CenterController.playerNumber;
+		playerIndexNow = getPlayerNextIndex();
 	}
 	
 
