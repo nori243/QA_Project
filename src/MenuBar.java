@@ -1,5 +1,9 @@
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,58 +18,72 @@ public class MenuBar extends JMenuBar
 	
 	private int height;
 	private int width;
+
+	JFrame frame = null;
 	
 	public MenuBar(int height,int width)
 	{
 		this.height = height;
 		this.width = width;
-		
-		JMenuItem item1, item2, item3, item4;
-        JMenu demo1 = new JMenu("開始新遊戲");
-        item1 = new JMenuItem("one");
+
+        final JMenu start = new JMenu("開始新遊戲");
+       /* item1 = new JMenuItem("one");
         item2 = new JMenuItem("two");
         demo1.add(item1);
-        demo1.add(item2);
-        JMenu demo2 = new JMenu("暫停");
-        item3 = new JMenuItem("three");
+        demo1.add(item2);*/
+        final JMenu end = new JMenu("離開遊戲");
+       /* item3 = new JMenuItem("three");
         item4 = new JMenuItem("four");        
         demo2.add(item3);
-        demo2.add(item4);
-        JMenu demo3 = new JMenu("更改名稱");
+        demo2.add(item4);*/
+      
+                 
+        add(start);
+        add(end);
         
-        add(demo1);
-        add(demo2);
-        add(demo3);
-        
-        MenuAction menuAction = new MenuAction();
-        demo1.addMenuListener(menuAction);
-	}
+        start.addMenuListener(new MenuListener(){
 
+			@Override
+			public void menuSelected(MenuEvent e)
+			{
+				if(frame != null)
+					frame.setVisible(false);
+				
+				frame = new RestartFrame(400,150);
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) 
+			{			
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) 
+			{		
+			}
+        });
+        
+        end.addMenuListener(new MenuListener(){
+        	@Override
+			public void menuSelected(MenuEvent e) 
+        	{
+        		if(frame != null)
+					frame.setVisible(false);
+        		
+        		frame = new EndFrame(400,150);
+        	}
+			@Override
+			public void menuCanceled(MenuEvent e) 
+			{
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) 
+			{
+			}
+
+		});
+	}
 }
 
-class MenuAction implements MenuListener
-{
 
-	@Override
-	public void menuCanceled(MenuEvent e) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuDeselected(MenuEvent e)
-	{
-		// TODO Auto-generated method stub		
-	}
-
-	@Override
-	public void menuSelected(MenuEvent e) 
-	{
-		// TODO Auto-generated method stub
-		//if(e.getSource() == menu1)
-			//;
-		
-	}
-
-}
