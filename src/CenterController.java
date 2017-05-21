@@ -70,4 +70,10 @@ public class CenterController
 				
 		return cardInfo;
 	}
+	/**/
+	
+	public String turn(int cardIndex)
+	{
+		return controller.turn(cardIndex);
+	}
 }
