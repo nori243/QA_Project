@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -10,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class GameFrame extends JFrame
+public class GameFrame extends JFrame implements Observer
 {
 	private String title = "Joker";
 	private static final int width = 1200;
@@ -34,17 +36,17 @@ public class GameFrame extends JFrame
 		menu = new MenuBar(height/25,width);
 		this.setJMenuBar(menu);
 		
+		
+		
 		this.setMainLayout();
 		this.setResizable(false);
 		//controller.DoSomething()
 	}
-	
-	
+		
 	private void setMainLayout()
 	{
 		container = new JPanel();
 		container.setSize(width-(width/25), height);
-		
 		initPanel();
 		
 		container.setLayout(new BorderLayout());
@@ -98,6 +100,21 @@ public class GameFrame extends JFrame
 			if(playerIndex >= 0)
 				container[i].setPlayerIndex(playerIndex);
 			user.add(container[i]);
+		}
+		
+	}
+
+	@Override
+	public void update(Observable obs, Object arg) 
+	{
+		if(obs instanceof RestartObservable)
+		{
+			GameFrame.this.dispose();
+			GameFrame g = new GameFrame();
+			StartFrame start = new StartFrame();
+			start.setFrame(g);
+			start.setVisible(true);
+			
 		}
 		
 	}
