@@ -17,7 +17,7 @@ public class GameFrame extends JFrame implements Observer
 	private String title = "Joker";
 	private static final int width = 1200;
 	private static final int height = 700;
-	private CenterController controller = CenterController.getInstance();
+	private CenterController controller ;
 	
 	private MenuBar menu;
 	
@@ -27,22 +27,31 @@ public class GameFrame extends JFrame implements Observer
 	private JPanel player_2;
 	private JPanel player_3;
 	private JPanel user;
-
 	
-	public GameFrame()
+	private String userName ;
+
+	private JPanel centerContent;
+	private JPanel[] content = new JPanel[4];
+	
+	public GameFrame(String name)
 	{
 		this.setTitle(title);
 		this.setSize(width, height);
 		menu = new MenuBar(height/25,width);
 		this.setJMenuBar(menu);
 		
+		this.userName = name;
 		
-		
-		this.setMainLayout();
 		this.setResizable(false);
 		//controller.DoSomething()
 	}
 		
+	public void initSetting()
+	{
+		controller = CenterController.getInstance();
+		this.setMainLayout();		
+	}
+	
 	private void setMainLayout()
 	{
 		container = new JPanel();
@@ -50,11 +59,12 @@ public class GameFrame extends JFrame implements Observer
 		initPanel();
 		
 		container.setLayout(new BorderLayout());
-		container.add(player_1, BorderLayout.WEST);
-		container.add(player_2, BorderLayout.NORTH);
-		container.add(player_3, BorderLayout.EAST);
-		container.add(user, BorderLayout.SOUTH);
-		container.add(center, BorderLayout.CENTER);
+
+		container.add(content[0], BorderLayout.SOUTH);
+		container.add(content[1], BorderLayout.WEST);
+		container.add(content[2], BorderLayout.NORTH);
+		container.add(content[3], BorderLayout.EAST);
+		container.add(centerContent, BorderLayout.CENTER);
 		
 		this.add(container);
 	}
@@ -65,17 +75,53 @@ public class GameFrame extends JFrame implements Observer
 		player_2 = new JPanel();
 		player_3 = new JPanel(new GridLayout(14,1));
 		user = new JPanel();
-		center = new JPanel();
+		
+		
+		center = new JPanel(new GridLayout(2,14));
+		fillCenter();
+		
+		centerContent = new JPanel();
+		centerContent.add(center);
+		
+		for(int i=0;i<4;i++)
+		{			
+			content[i] = new JPanel();
+			
+		}
+		content[1] = new JPanel(new GridLayout(1,14));
+		content[3] = new JPanel(new GridLayout(1,14));
+		
+		content[0].add(user);
+		content[1].add(player_1);
+		content[2].add(player_2);
+		content[3].add(player_3);
+		
+		setAllPic();
+		
+		//TODO 排版/字型/listener/observer
+	}
+	
+	private void fillCenter() 
+	{
+		for(int i = 0;i <= 14;i++)
+		{
+			center.add(new JPanel());
+		}
+		
+	}
 
-
+	private void setAllPic()
+	{
 		setPlayerPic(user,0);
 		setPlayerPic(player_1,1);
 		setPlayerPic(player_2,2);
 		setPlayerPic(player_3,3);
 		
-		//TODO 排版/字型/listener/observer
+		player_1.removeAll();
+		setPlayerPic(center,1);
+		
 	}
-
+	
 	private void setPlayerPic(JPanel user,int playerIndex) 
 	{
 		setPic(user,controller.getPlayerPileInfo(playerIndex),playerIndex);
@@ -103,6 +149,14 @@ public class GameFrame extends JFrame implements Observer
 		}
 		
 	}
+	
+	private void removeAllPic()
+	{
+		user.removeAll();
+		player_1.removeAll();
+		player_2.removeAll();
+		player_3.removeAll();
+	}
 
 	@Override
 	public void update(Observable obs, Object arg) 
@@ -110,11 +164,25 @@ public class GameFrame extends JFrame implements Observer
 		if(obs instanceof RestartObservable)
 		{
 			GameFrame.this.dispose();
-			GameFrame g = new GameFrame();
 			StartFrame start = new StartFrame();
-			start.setFrame(g);
-			start.setVisible(true);
+			start.setVisible(true);			
+		}
+		else if(obs instanceof CardObservable)
+		{
+			CardObservable c = (CardObservable)obs;
+			int index = c.getCardIndex();
 			
+			controller.turn(index);
+		}
+		else if(obs instanceof GameController)
+		{
+			removeAllPic();
+			setAllPic();
+			int index = GameController.playerIndexNow;
+			//if()
+			//refrash
+			this.validate();
+			this.repaint();
 		}
 		
 	}

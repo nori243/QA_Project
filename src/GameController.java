@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Observable;
 
 
-public class GameController 
+public class GameController extends Observable
 {
 	private static final int USERINDEX = 0;
 	Card[] centerCard = new Card[2];
@@ -15,6 +16,7 @@ public class GameController
 	{
 		this.player = player;
 		playerIndexNow = GameInitial.startPlayerIndex;
+		
 	}
 	
 	public static GameController getInstance(ArrayList<Player> player)
@@ -23,6 +25,8 @@ public class GameController
 		{
 			uniqueGC = new GameController(player);
 		}
+		
+		uniqueGC.addObserver(StartFrame.gameFrame);
 		
 		return uniqueGC;
 	}
@@ -38,6 +42,10 @@ public class GameController
 		
 		changeGameState();
 		changePlayer();
+		
+		this.setChanged();
+		this.notifyObservers();
+		
 		return gameState;
 	}
 	

@@ -159,8 +159,10 @@ public class StartFrame extends JFrame
 		
 		if(!enterString.equals(""))
 		{			
-			gameFrame = new GameFrame();			
+			gameFrame = new GameFrame(enterString);	
+			gameFrame.initSetting();
 			gameFrame.setVisible(true);	
+			
 			StartFrame.this.dispose();
 		}
 		else
@@ -169,10 +171,4 @@ public class StartFrame extends JFrame
 		}
 		
 	}
-	
-	public void setFrame(GameFrame g)
-	{
-		gameFrame = g;
-	}
-	
 }
