@@ -36,7 +36,8 @@ public class GameController extends Observable
 	
 	public String getState()
 	{
-		changeGameState();
+//		changeGameState();
+		
 		return gameState;
 	}
 	
@@ -45,11 +46,11 @@ public class GameController extends Observable
 		if(cardIndex !=  -1)
 		{			
 			chooseCard(cardIndex);
-			removePair();
+			removePair(playerIndexNow);			
 		}
 		
 		changeGameState();
-		changePlayer();
+		changePlayer();		
 		
 		this.setChanged();
 		this.notifyObservers();
@@ -76,7 +77,6 @@ public class GameController extends Observable
 	
 	private void chooseCard(int index) 
 	{
-	
 		cardIndex = index;
 		
 		//Âà²¾¥d
@@ -100,11 +100,11 @@ public class GameController extends Observable
 		
 		while(gameState.equals(""))
 		{
-			if(player.get(index).getAmountOfCard() <= 0  )
+			if(player.get(index).getAmountOfCard() <= 0)
 			{
-				index = (index + clock)%4;
-//				index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
-//				index = index % CenterController.playerNumber;
+				//TODO §ï
+				index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
+				index = index % CenterController.playerNumber;
 				System.out.println("player " + index + " " + player.get(index).getAmountOfCard());
 			}
 			else
@@ -117,9 +117,9 @@ public class GameController extends Observable
 		return index;
 	}
 
-	public void removePair()
+	public void removePair(int playerIndex)
 	{
-		Player playerNow = this.player.get(playerIndexNow);
+		Player playerNow = this.player.get(playerIndex);
 		int playerCardNum = playerNow.getAmountOfCard();
 		System.out.println(playerCardNum);
 		int i = 0;
@@ -142,15 +142,16 @@ public class GameController extends Observable
 			{
 				i=0;
 			}
-			this.player.set(playerIndexNow, playerNow);
+			
+			this.player.set(playerIndex, playerNow);
 		}
 	}	
 
 	
 	private void changeGameState()
 	{
-		if(player.get(USERINDEX).getAmountOfCard() > 0 && player.get(1).getAmountOfCard() <= 0 && player.get(2).getAmountOfCard() <= 0 
-				&& player.get(3).getAmountOfCard() <= 0 )
+		if(player.get(USERINDEX).getAmountOfCard() > 0 && (player.get(1).getAmountOfCard() <= 0 || player.get(2).getAmountOfCard() <= 0 
+				|| player.get(3).getAmountOfCard() <= 0 ))
 		{
 			gameState =  "Game Over";
 		}
@@ -162,7 +163,12 @@ public class GameController extends Observable
 				gameState = "";
 
 		}
+		
+		this.setChanged();
+		this.notifyObservers();
 	}
+	
+
 	
 	public void changePlayer()
 	{
