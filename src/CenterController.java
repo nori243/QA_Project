@@ -7,9 +7,11 @@ public class CenterController
 	ArrayList<Player> player ;
 	private String userName = "user";
 	private static CenterController uniqueController;
+	private String state = "";
 	
 	GameInitial initial ;
 	GameController controller ;
+	
 	
 	private CenterController()
 	{
@@ -49,9 +51,20 @@ public class CenterController
 		player.get(0).setName(name);
 	}
 	
-	public int getPlayerNowIndex()
+	public int getPlayerIndex()
 	{
 		return controller.playerIndexNow;
+	}
+	
+	
+	public int getPlayerIndexNext()
+	{
+		return controller.getPlayerNextIndex();
+	}
+	
+	public int getChooseIndex()
+	{
+		return controller.getChooseIndex();
 	}
 	
 	public String[] getPileInfo(Pile pile)
@@ -72,8 +85,19 @@ public class CenterController
 	}
 	/**/
 	
-	public String turn(int cardIndex)
+	public void turn(int cardIndex)
 	{
-		return controller.turn(cardIndex);
+		 state = controller.turn(cardIndex);
 	}
+
+	public String getState()
+	{
+		return state;
+	}
+	
+	public int AIChooseCard()
+	{
+		return controller.AIChooseCard(); 
+	}
+	
 }
