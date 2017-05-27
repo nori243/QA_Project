@@ -11,11 +11,13 @@ public class GameController extends Observable
 	private ArrayList<Player> player;
 	
 	private String gameState = "";
+	private int cardIndex = -1;
 
 	private GameController(ArrayList<Player> player)
 	{
 		this.player = player;
 		playerIndexNow = GameInitial.startPlayerIndex;
+		gameState = "";
 		
 	}
 	
@@ -30,15 +32,21 @@ public class GameController extends Observable
 		
 		return uniqueGC;
 	}
+
+	
+	public String getState()
+	{
+		changeGameState();
+		return gameState;
+	}
 	
 	public String turn(int cardIndex)
 	{
-		if(cardIndex != -1)
-		{
-			removePair();
+		if(cardIndex !=  -1)
+		{			
 			chooseCard(cardIndex);
 			removePair();
-		}		
+		}
 		
 		changeGameState();
 		changePlayer();
@@ -49,18 +57,31 @@ public class GameController extends Observable
 		return gameState;
 	}
 	
+	public int AIChooseCard()
+	{		
+		//TODO TEST
+		int index = ((AIPlayer)player.get(playerIndexNow)).autoPlay(player.get(getPlayerNextIndex()).getAmountOfCard());
+		
+		this.setChanged();
+		this.notifyObservers();
+		return index;
+		
+		
+	}
+	
+	public int getChooseIndex()
+	{
+		return cardIndex;
+	}
 	
 	private void chooseCard(int index) 
 	{
-		int playerIndex = getPlayerNextIndex();
-		if(playerIndexNow != 0)
-		{			
-			index = ((AIPlayer)player.get(playerIndexNow)).autoPlay(player.get(playerIndex).getAmountOfCard());
-		}
+	
+		cardIndex = index;
 		
 		//Âà²¾¥d
-		Card card = player.get(playerIndex).getCard(index);
-		player.get(playerIndex).removeCard(card);
+		Card card = player.get(getPlayerNextIndex()).getCard(index);
+		player.get(getPlayerNextIndex()).removeCard(card);
 		player.get(playerIndexNow).addCard(card);
 		
 	}
@@ -79,11 +100,17 @@ public class GameController extends Observable
 		
 		while(gameState.equals(""))
 		{
-			if(player.get(index).getAmountOfCard() >= 0)
+			if(player.get(index).getAmountOfCard() <= 0  )
+			{
+				index = (index + clock)%4;
+//				index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
+//				index = index % CenterController.playerNumber;
+				System.out.println("player " + index + " " + player.get(index).getAmountOfCard());
+			}
+			else
 				break;
-			index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
-			index = index % CenterController.playerNumber;
-			System.out.println(index);
+			//
+			changeGameState();
 		}
 
 		
@@ -97,7 +124,7 @@ public class GameController extends Observable
 		System.out.println(playerCardNum);
 		int i = 0;
 		int size = playerNow.getAmountOfCard();
-		while(playerNow.hasPair())
+		while(playerNow.hasPair() && size > 0)
 		{
 			if(playerNow.getPairIndex(playerNow.getCard(i)) >= 0)
 			{
@@ -139,6 +166,7 @@ public class GameController extends Observable
 	
 	public void changePlayer()
 	{
+		System.out.println("change");
 		playerIndexNow = getPlayerNextIndex();
 	}
 	
