@@ -13,16 +13,7 @@ public class AIPlayer extends Player
 	{
 		int cardIndex = chooseCard(cardNum);
 		
-		try 
-		{
-			Thread.currentThread();
-			Thread.sleep(1000);
-			
-			return cardIndex;
-		} catch (InterruptedException e) 
-		{
-			return -1;
-		}
+		return cardIndex;
 	}
 
 	private int chooseCard(int num) 
