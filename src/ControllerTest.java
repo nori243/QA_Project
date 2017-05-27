@@ -21,7 +21,11 @@ public class ControllerTest {
 	@BeforeClass
 	public static void initClass()
 	{
-		CenterController c = mock(CenterController.class);
+		StartFrame s = mock(StartFrame.class);
+		
+		
+		StartFrame.gameFrame = new GameFrame("user");
+			
 		player = new ArrayList<Player>();
 		
 		player.add(new Player("user",new Pile()));		
@@ -33,11 +37,15 @@ public class ControllerTest {
 		gi = GameInitial.getInstance(player);			
 		gc = GameController.getInstance(player);
 				
+		StartFrame.gameFrame.initSetting();
+		
+		
 		System.out.println("init, start player is "+GameController.playerIndexNow);
 	}
 
 	
 	/*GameInitial*/
+
 	@Test
 	public void cardNumTest()
 	{
@@ -56,6 +64,7 @@ public class ControllerTest {
 	/*GameController*/
 	/*--------State Test----------*/
 
+	
 	@Test
 	public void stateLoseTest()
 	{		
@@ -69,13 +78,15 @@ public class ControllerTest {
 				Card card = player.get(i).getCard(j); 
 				player.get(i).removeCard(card);
 			}
-			System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
+			//System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
 		}
 		
-		
-		assertEquals("Game Over",gc.turn(-1));	
+		gc.turn(-1);
+		assertEquals("Game Over",gc.getState());
+		//assertEquals("Game Over",);	
 		
 	}	
+	
 	
 	@Test
 	public void stateWinTest()
@@ -95,9 +106,10 @@ public class ControllerTest {
 		}
 		
 		
-		assertEquals("Win",gc.turn(-1));	
+		assertEquals("Win",gc.getState());	
 		
 	}	
+	
 	
 	@Test //user ³Ñ¤@±i
 	public void stateNormalTest_1()
@@ -118,7 +130,7 @@ public class ControllerTest {
 		}
 		
 		
-		assertEquals("",gc.turn(-1));	
+		assertEquals("",gc.getState());	
 	}
 	
 	@Test // user Player1-3 = 1 0 0 1
@@ -149,10 +161,13 @@ public class ControllerTest {
 			player.get(3).removeCard(card);
 		}
 		
-		System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
-
+		//System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
+		GameController.playerIndexNow = 0;
 		
-		assertEquals("",gc.turn(-1));	
+		assertEquals(3,gc.getPlayerNextIndex());		
+		assertEquals("",gc.getState());	
+		
+		assertEquals("Game Over",gc.turn(0));
 		
 	}	
 	
@@ -186,13 +201,19 @@ public class ControllerTest {
 		
 		System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
 
+		GameController.playerIndexNow = 0;		
 		
-		assertEquals("",gc.turn(-1));	
+		if(GameInitial.clockWise)
+			assertEquals(1,gc.getPlayerNextIndex());		
+		else
+			assertEquals(3,gc.getPlayerNextIndex());
 		
+		
+		assertEquals("",gc.getState());	
 	}	
 	
 	/*--------State Test End----------*/
-	
+
 	@Test
 	public void removePairTest()
 	{	
@@ -207,6 +228,7 @@ public class ControllerTest {
 		assertFalse(player.get(GameController.playerIndexNow).hasPair());
 	}	
 
+	
 	@Test
 	public void ChangePlayerTest()
 	{
@@ -223,7 +245,7 @@ public class ControllerTest {
 		assertEquals(indexAfter,GameController.playerIndexNow);
 		
 	}
-	
+
 	@Test
 	public void userTurnTest()
 	{
@@ -251,6 +273,7 @@ public class ControllerTest {
 	public void funEnd()
 	{		
 		gi.initGame();
+		
 	}
 	
 	@AfterClass
