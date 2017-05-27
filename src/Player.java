@@ -34,21 +34,28 @@ public class Player
 	{
 		return pile.getAmountOfCard();
 	}
-
+	
 	/*----player actions----*/
 	
 	public void addCard(Card card)
 	{
 		pile.addCard(card);
+		pile.shufflingCard();
 	}
 	
 	public boolean removeCard(Card card)
 	{
-		return pile.removeCard(card);
+		boolean r = pile.removeCard(card);
+		
+		pile.shufflingCard();
+		return r ;
 	}
 	public boolean removePair(Card card)
 	{	
-		return pile.removePair(card);
+		boolean r =  pile.removePair(card);
+		
+		pile.shufflingCard();
+		return r ;
 	}
 	
 	public Card getCard(int i)
