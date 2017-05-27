@@ -27,16 +27,7 @@ public class MenuBar extends JMenuBar
 		this.width = width;
 
         final JMenu start = new JMenu("開始新遊戲");
-       /* item1 = new JMenuItem("one");
-        item2 = new JMenuItem("two");
-        demo1.add(item1);
-        demo1.add(item2);*/
-        final JMenu end = new JMenu("離開遊戲");
-       /* item3 = new JMenuItem("three");
-        item4 = new JMenuItem("four");        
-        demo2.add(item3);
-        demo2.add(item4);*/
-      
+        final JMenu end = new JMenu("離開遊戲");     
                  
         add(start);
         add(end);
