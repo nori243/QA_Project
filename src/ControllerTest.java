@@ -129,50 +129,23 @@ public class ControllerTest {
 			System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
 		}
 		
-		
 		assertEquals("",gc.getState());	
+
+		int indexBefore;
+		if(GameInitial.clockWise == true)			
+			indexBefore = 3;
+		else
+			indexBefore = 1;
+		
+		GameController.playerIndexNow = indexBefore;
+		gc.turn(0);
+		assertEquals("Win",gc.getState());
+
+		
 	}
 	
-	@Test // user Player1-3 = 1 0 0 1
+	@Test // user Player1-3 = 1 1 1 0
 	public void stateNormalTest_2()
-	{		
-		assertEquals(14,player.get(GameInitial.startPlayerIndex).getAmountOfCard());
-
-		for(int j = 0;j < player.get(0).getAmountOfCard() - 1;)
-		{
-			Card card = player.get(0).getCard(j); 
-			player.get(0).removeCard(card);
-		}
-		System.out.println("user" + " " + player.get(0).getAmountOfCard());
-		
-		for(int i = 1;i < 3 ;i++)
-		{
-			for(int j = 0;j < player.get(i).getAmountOfCard();)
-			{
-				Card card = player.get(i).getCard(j); 
-				player.get(i).removeCard(card);
-			}
-			System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
-		}
-		
-		for(int j = 0;j < player.get(3).getAmountOfCard()-1;)
-		{
-			Card card = player.get(3).getCard(j); 
-			player.get(3).removeCard(card);
-		}
-		
-		//System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
-		GameController.playerIndexNow = 0;
-		
-		assertEquals(3,gc.getPlayerNextIndex());		
-		assertEquals("",gc.getState());	
-		
-		assertEquals("Game Over",gc.turn(0));
-		
-	}	
-	
-	@Test //user Player1-3 = 1 1 1 0
-	public void stateNormalTest_3()
 	{		
 		assertEquals(14,player.get(GameInitial.startPlayerIndex).getAmountOfCard());
 
@@ -199,18 +172,17 @@ public class ControllerTest {
 			player.get(3).removeCard(card);
 		}
 		
-		System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
-
-		GameController.playerIndexNow = 0;		
+		//System.out.println("player" + 3 + " " + player.get(3).getAmountOfCard());
+		GameController.playerIndexNow = 0;
 		
-		if(GameInitial.clockWise)
-			assertEquals(1,gc.getPlayerNextIndex());		
-		else
-			assertEquals(3,gc.getPlayerNextIndex());
+		//gc.playerIsNull();
+		//assertEquals(3,gc.getPlayerNextIndex());	
+		assertEquals("Game Over",gc.getState());	
 		
+		//assertEquals("Game Over",gc.turn(-1));
 		
-		assertEquals("",gc.getState());	
 	}	
+	
 	
 	/*--------State Test End----------*/
 
@@ -221,7 +193,7 @@ public class ControllerTest {
 		System.out.println(player.get(GameController.playerIndexNow).getName() + " : \n" + player.get(GameController.playerIndexNow).showCard());
 		assertTrue(player.get(GameController.playerIndexNow).hasPair());
 		
-		gc.removePair();
+		gc.removePair(GameController.playerIndexNow);
 		
 		System.out.println(player.get(GameController.playerIndexNow).getName() + " : \n" + player.get(GameController.playerIndexNow).showCard());
 		System.out.println(player.get(GameController.playerIndexNow).getAmountOfCard());
@@ -243,6 +215,42 @@ public class ControllerTest {
 		indexAfter = indexAfter % CenterController.playerNumber ;
 		gc.changePlayer();			
 		assertEquals(indexAfter,GameController.playerIndexNow);
+		
+	}
+	
+	@Test //1 1 1 1
+	public void ChangePlayerTest_2()
+	{
+		int indexBefore = GameController.playerIndexNow;
+		int indexAfter;
+		
+		for(int j = 0;j < player.get(0).getAmountOfCard() - 1;)
+		{
+			Card card = player.get(0).getCard(j); 
+			player.get(0).removeCard(card);
+		}
+		System.out.println("user" + " " + player.get(0).getAmountOfCard());
+		
+		for(int i = 1;i < 4 ;i++)
+		{
+			for(int j = 0;j < player.get(i).getAmountOfCard()-1;)
+			{
+				Card card = player.get(i).getCard(j); 
+				player.get(i).removeCard(card);
+			}
+			System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
+		}		
+
+		GameController.playerIndexNow = 2;		
+		
+		if(GameInitial.clockWise)
+			assertEquals(3,gc.getPlayerNextIndex());		
+		else
+			assertEquals(1,gc.getPlayerNextIndex());
+
+		assertEquals("",gc.getState());
+		gc.turn(0);
+		assertEquals("Game Over",gc.getState());
 		
 	}
 
