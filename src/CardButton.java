@@ -15,7 +15,6 @@ public class CardButton extends JButton
 {
 	private int playerIndex = -1;
 	private int cardIndex ;
-	private boolean isPick = false;
 	private boolean isBack = false;
 	private ImageIcon img;
 	private ImageIcon back;
@@ -34,7 +33,7 @@ public class CardButton extends JButton
 		
 		
 	}
-	
+
 	public void turnBack(boolean turn)
 	{
 		isBack = turn;
@@ -65,10 +64,6 @@ public class CardButton extends JButton
 		return this.playerIndex;
 	}
 
-	public void setFrame()
-	{
-		
-	}
 	
 
 //animate : http://www.cnblogs.com/xiaowenji/archive/2011/02/04/1949165.html
