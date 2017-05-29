@@ -22,7 +22,7 @@ public class RestartFrame extends JFrame
 	private JPanel mainPanel;
 	private JPanel buttonPanel;
 	
-	private JLabel textLabel;
+	private FormatLabel textLabel;
 	
 	public RestartFrame(int width,int height)
 	{
@@ -62,8 +62,7 @@ public class RestartFrame extends JFrame
 	
 	private void initLabel()
 	{		
-		textLabel = new JLabel("是否開始新遊戲?");
-		textLabel.setFont(new Font("Dialog", Font.BOLD , 16));
+		textLabel = new FormatLabel("是否開始新遊戲?",16);
 	}
 	
 	private void initButton()

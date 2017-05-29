@@ -18,7 +18,7 @@ public class EndFrame extends JFrame
 	
 	private JPanel mainPanel;	
 	private JPanel buttonPanel;
-	private JLabel textLabel;
+	private FormatLabel textLabel;
 	
 	private JButton yes;
 	private JButton no;
@@ -54,8 +54,7 @@ public class EndFrame extends JFrame
 	
 	private void initLabel()
 	{		
-		textLabel = new JLabel("是否確定離開遊戲?");
-		textLabel.setFont(new Font("Dialog", Font.BOLD , 16));
+		textLabel = new FormatLabel("是否確定離開遊戲?",16);
 	}
 	
 	private void initPanel()

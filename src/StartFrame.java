@@ -23,8 +23,8 @@ public class StartFrame extends JFrame
 	private static final String title = "Jocker";
 	
 	private JButton enter;
-	private JLabel errorMsg;
-	private JLabel msg;
+	private FormatLabel errorMsg;
+	private FormatLabel msg;
 	private JTextField enterName;
 	
 	private String defaultName = "user";
@@ -58,6 +58,7 @@ public class StartFrame extends JFrame
 	private void setEdit()
 	{
 		enterName = new JTextField(defaultName);
+		enterName.setFont(new Font("Dialog", Font.BOLD , 14));
 		setEditMouseListener();
 		setEditKeyListener();
 		
@@ -125,12 +126,10 @@ public class StartFrame extends JFrame
 	private void setLabel()
 	{
 		String info = "¿é¤Jª±®a¦WºÙ";
-		msg = new JLabel(info);
-		msg.setFont(new Font("Dialog", Font.BOLD , 14));
+		msg = new FormatLabel(info,14);
 		
-		errorMsg = new JLabel("");
+		errorMsg = new FormatLabel("");
 		errorMsg.setForeground(Color.red);
-		errorMsg.setFont(new Font("Dialog", Font.BOLD , 12));
 		
 	}	
 	
@@ -160,8 +159,9 @@ public class StartFrame extends JFrame
 		if(!enterString.equals(""))
 		{			
 			gameFrame = new GameFrame(enterString);	
-			gameFrame.initSetting();
-			gameFrame.setVisible(true);	
+			
+			
+			StartInfoFrame frame = new StartInfoFrame(enterString);
 			
 			StartFrame.this.dispose();
 		}
