@@ -6,7 +6,7 @@ public class CenterController
 	public static int playerNumber = 4;
 	ArrayList<Player> player ;
 	private String userName = "user";
-	private static CenterController uniqueController;
+	private static CenterController uniqueController = null;
 	private String state = "";
 	
 	GameInitial initial ;
@@ -15,9 +15,7 @@ public class CenterController
 	
 	private CenterController()
 	{
-		playerInitial();
-		initial = GameInitial.getInstance(player);
-		controller = GameController.getInstance(player);		
+		playerInitial();	
 	}
 	
 	public static CenterController getInstance()
@@ -30,7 +28,7 @@ public class CenterController
 		return uniqueController;
 	}
 	
-	public void playerInitial()
+	private void playerInitial()
 	{
 		//playerIndex 0 = user
 		player = new ArrayList<Player>();
@@ -43,6 +41,7 @@ public class CenterController
 
 		initial = GameInitial.getInstance(player);
 		controller = GameController.getInstance(player);		
+		controller.addObserver(StartFrame.gameFrame);
 	}
 
 	public void setName(String name)
@@ -92,12 +91,39 @@ public class CenterController
 
 	public String getState()
 	{
-		return state;
+		return controller.getState();
 	}
 	
 	public int AIChooseCard()
 	{
 		return controller.AIChooseCard(); 
+	}
+	
+	public void removeAllPair()
+	{
+		//TODO test
+		controller.removePair(0);
+		controller.removePair(1);
+		controller.removePair(2);
+		controller.removePair(3);
+	}
+	
+	public String getTurn()
+	{
+		String rt;
+		
+		if(initial.clockWise)
+			rt = "¶¶®É°w";
+		else
+			rt = "°f®É°w";			
+		
+		return rt;
+	}
+	
+	public void init()
+	{
+		initial.initGame();
+		controller.addObserver(StartFrame.gameFrame);
 	}
 	
 }
