@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +25,12 @@ import javax.swing.border.SoftBevelBorder;
 //TODO 翻牌 自動 顯示 紅線
 public class GameFrame extends JFrame implements Observer
 {
+	public static final int PLAYER_NUM = 4;
+	
 	private String title = "Joker";
 	private static final int width = 1350;
 	private static final int height = 700;
-	private CenterController controller ;
+	public CenterController controller ;
 	
 	private MenuBar menu;
 	
@@ -38,23 +41,29 @@ public class GameFrame extends JFrame implements Observer
 	private JPanel player_3;
 	private JPanel user;
 	private JPanel centerContent;
-	private JPanel[] content = new JPanel[4];
+	private JPanel[] content = new JPanel[PLAYER_NUM];
 	
 	/*--text--*/
-	private JLabel gameStateText;
-	private JLabel playerNowText;
-	private JLabel nextPlayerText;
-	private JLabel userCardNumText;	
+	private FormatLabel gameStateText;
+	private FormatLabel playerNowText;
+	private FormatLabel nextPlayerText;
+	private FormatLabel userCardNumText;	
 	/*--value--*/
-	private JLabel gameState;
-	private JLabel playerNow;
-	private JLabel nextPlayer;
-	private JLabel userCardNum;	
+	private FormatLabel gameState;
+	private FormatLabel playerNow;
+	private FormatLabel nextPlayer;
+	private FormatLabel userCardNum;	
 	
 	private JButton end;
 	
+	/*--name label--*/
 	private String userName ;
-
+	private FormatLabel userNameLabel ;
+	private FormatLabel player1NameLabel ;
+	private FormatLabel player2NameLabel ;
+	private FormatLabel player3NameLabel ;
+	
+	
 	public CardButton[][] card = new CardButton[4][] ;
 	
 
@@ -69,32 +78,35 @@ public class GameFrame extends JFrame implements Observer
 	{
 		this.setTitle(title);
 		this.setSize(width, height);
-		menu = new MenuBar(height/25,width);
 		
+		menu = new MenuBar(height/25,width);		
 		this.setJMenuBar(menu);
 		
 		this.userName = name;
 		
 		this.setResizable(false);
-		//controller.DoSomething()
 	}
 
 	public void initSetting()
 	{
 		controller = CenterController.getInstance();
 		
+		controller.removeAllPair();
+		controller.setName(userName);
+		
+		cardIndex = -1;
+		isChoose = false;
+		
 		this.setMainLayout();	
 		setCenterPanel(controller.getPlayerIndexNext());
-
-	//	AIControl();
 	}
 	
 	private void setMainLayout()
 	{
 		container = new JPanel();
 		container.setSize(width-(width/25), height);
-		initPanel();
-		initCondPanel();
+		setPanel();
+		setCondPanel();
 		
 		container.setLayout(new BorderLayout());
 
@@ -102,10 +114,8 @@ public class GameFrame extends JFrame implements Observer
 		container.add(content[1], BorderLayout.WEST);
 		container.add(content[2], BorderLayout.NORTH);
 		container.add(content[3], BorderLayout.EAST);
-		container.add(centerContent, BorderLayout.CENTER);
-		
-		//
-		//this.add(container);
+		container.add(centerContent, BorderLayout.CENTER);	
+
 		setOutsidePanel();
 	}
 
@@ -118,77 +128,87 @@ public class GameFrame extends JFrame implements Observer
 		this.add(outside);
 	}
 	
-	private void initCondPanel()
+	private void setCondPanel()
 	{
-		condPanel = new JPanel(new GridLayout(5,2));
+		JPanel cond = new JPanel(new GridLayout(4,2));
+		condPanel = new JPanel(new BorderLayout());
 		condPanel.setPreferredSize(new Dimension(200,0));
 		condPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 		
-		playerNowText = new JLabel("目前玩家:");
-		nextPlayerText = new JLabel("下一個玩家:");
-		userCardNumText = new JLabel("剩餘牌數:");
-		gameStateText = new JLabel(controller.getState());
+		playerNowText = new FormatLabel("目前玩家:");
+		nextPlayerText = new FormatLabel("下一個玩家:");
+		userCardNumText = new FormatLabel("剩餘牌數:");
+		gameStateText = new FormatLabel(controller.getState());
 		
-		playerNow = new JLabel(controller.player.get(controller.getPlayerIndex()).getName());
-		nextPlayer = new JLabel(controller.player.get(controller.getPlayerIndexNext()).getName());
-		userCardNum = new JLabel(String.valueOf(controller.player.get(0).getAmountOfCard()));
-		gameState = new JLabel(controller.getState());
+		playerNow = new FormatLabel(controller.player.get(controller.getPlayerIndex()).getName(),16);
+		nextPlayer = new FormatLabel(controller.player.get(controller.getPlayerIndexNext()).getName(),16);
+		userCardNum = new FormatLabel(String.valueOf(controller.player.get(0).getAmountOfCard()),16);
+		gameState = new FormatLabel(controller.getState(),16);
 		
-		buttonSetting();		
+		setButton();		
 		
-		condPanel.add(gameState);
-		condPanel.add(gameStateText);
+		cond.add(gameState);
+		cond.add(gameStateText);
 		
-		condPanel.add(playerNowText);
-		condPanel.add(playerNow);
+		cond.add(playerNowText);
+		cond.add(playerNow);
 		
-		condPanel.add(nextPlayerText);
-		condPanel.add(nextPlayer);
+		cond.add(nextPlayerText);
+		cond.add(nextPlayer);
 		
-		condPanel.add(userCardNumText);
-		condPanel.add(userCardNum);
+		cond.add(userCardNumText);
+		cond.add(userCardNum);
 		
-		condPanel.add(end);	
+		condPanel.add(cond,BorderLayout.CENTER);
+		condPanel.add(end,BorderLayout.SOUTH);	
 	}
 	
-	private void initPanel()
+	private void setPanel()
 	{
 		player_1 = new JPanel(new GridLayout(14,1));
 		player_2 = new JPanel();
 		player_3 = new JPanel(new GridLayout(14,1));
-		user = new JPanel();
-		
-		
+		user = new JPanel();			
 		center = new JPanel(new GridLayout(1,14));
 
 		centerContent = new JPanel();
-		centerContent.add(center);
-
+		centerContent.add(center);		
 		
+		for(int i = 0;i < PLAYER_NUM;i++)
+		{
+			content[i] = new JPanel(new BorderLayout());
+		}
 		
-		content[0] = new JPanel(new BorderLayout());	
-		content[1] = new JPanel(new GridLayout(1,1));
-		content[2] = new JPanel();
-		content[3] = new JPanel(new GridLayout(1,1));
+		setNameLabel();
 		
-		
-		
-		content[0].add(user,BorderLayout.CENTER);
-		//content[0].add(end, BorderLayout.EAST);
-		JLabel userNameLabel = new JLabel(userName);
-		userNameLabel.setHorizontalAlignment(JLabel.CENTER);
+		content[0].add(user,BorderLayout.CENTER);		
 		content[0].add(userNameLabel, BorderLayout.NORTH);
 		
-		content[1].add(player_1);
-		content[2].add(player_2);
-		content[3].add(player_3);
+		content[1].add(player1NameLabel,BorderLayout.NORTH);
+		content[1].add(player_1,BorderLayout.CENTER);
+		
+		content[2].add(player2NameLabel,BorderLayout.NORTH);
+		content[2].add(player_2,BorderLayout.CENTER);
+		
+		content[3].add(player3NameLabel,BorderLayout.NORTH);
+		content[3].add(player_3,BorderLayout.CENTER);
 		
 		setAllPic();
 		
-		//player3 = new JLabel("player3");
-		//content[3].add(player3);
+		//TODO 字型/color
+	}
+	
+	private void setNameLabel()
+	{
+		userNameLabel = new FormatLabel(userName);
+		player1NameLabel = new FormatLabel(controller.player.get(1).getName());
+		player2NameLabel = new FormatLabel(controller.player.get(2).getName());
+		player3NameLabel = new FormatLabel(controller.player.get(3).getName());	
 		
-		//TODO 排版/字型/listener/observer
+		userNameLabel.setHorizontalAlignment(JLabel.CENTER);
+		player1NameLabel.setHorizontalAlignment(JLabel.CENTER);	
+		player2NameLabel.setHorizontalAlignment(JLabel.CENTER);
+		player3NameLabel.setHorizontalAlignment(JLabel.CENTER);
 	}
 	
 	private void AIControl()
@@ -202,58 +222,62 @@ public class GameFrame extends JFrame implements Observer
 			
 			try 
 			{	
-				card[controller.getPlayerIndexNext()][cardIndex].setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-
 				validate();
 				repaint();
 				Thread.currentThread();
 				Thread.sleep(500);	
-				//TODO animate
+
 				controller.turn(cardIndex);
-				
-			//	end.setEnabled(false);			
-				
-			
+				cardIndex = -1;
+	
 			} catch (InterruptedException e) 
 			{
 
 			}
-			cardIndex = -1;
-			
-			
+
 		}
-		//end.setEnabled(true);
 	}
 	
-	private void buttonSetting()
+	private void setButton()
 	{
 		end = new JButton("end turn");
+		if(controller.getPlayerIndex() == 0)
+		{
+			end.setForeground(Color.RED);
+			end.setText("choose card");
+		}
+		else
+		{
+			end.setForeground(Color.BLACK);
+			end.setText("end turn");
+		}
+		
 		end.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
-			{		
-				
+			{						
 				if(controller.getPlayerIndex() == 0)
 				{
 					if(cardIndex != -1)
 					{
-						//TODO remove
-						System.out.println(controller.player.get(0).showCard());
-						controller.turn(cardIndex);
-						System.out.println(controller.player.get(0).showCard());
-						
-						validate();
-						repaint();
-						//AIControl();
+						controller.turn(cardIndex);						
 					}
 				}				
 				else
-					AIControl();					
-				
-				
+				{
+					AIControl();	
+				}			
+								
 				isChoose = false;
 			}});
+		
+		end.setPreferredSize(new Dimension(0,100));
+		
+		end.setBorder(BorderFactory.createRaisedBevelBorder());
+		end.setBackground(Color.white);
+		end.setFont(new Font("Dialog", Font.BOLD , 16));
+		
 	}
 	
 	private void setCenterPanel(int playerIndex)
@@ -270,7 +294,6 @@ public class GameFrame extends JFrame implements Observer
 				break;
 				
 			case 1:
-				System.out.println("eee");
 				setPlayerPic(center,1);
 				player_1.setVisible(false);
 				content[1].setPreferredSize(new Dimension(120,150));
@@ -313,7 +336,7 @@ public class GameFrame extends JFrame implements Observer
 
 	private void setPic(JPanel user,String[] fileName,int playerIndex,int index)
 	{
-		if(fileName.length != 0)
+		if(fileName != null)
 		{
 			card[index] = new CardButton[fileName.length];
 			ImageIcon img[] = new ImageIcon[fileName.length];
@@ -322,7 +345,7 @@ public class GameFrame extends JFrame implements Observer
 			{
 				String name;
 				
-					name = fileName[i];
+				name = fileName[i];
 				
 				img[i] = new ImageIcon(System.getProperty("user.dir")+"//cardPic//" + name + ".gif");
 				card[index][i] = new CardButton(img[i],i);
@@ -334,7 +357,7 @@ public class GameFrame extends JFrame implements Observer
 				}
 				if(playerIndex != 0)
 				{
-//					card[index][i].turnBack(true);
+					card[index][i].turnBack(true);
 				}	
 					
 				user.add(card[index][i]);
@@ -363,16 +386,12 @@ public class GameFrame extends JFrame implements Observer
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				if(isChoose && (card.getCardIndex() == cardIndex) && card.getPlayerIndex() == controller.getPlayerIndexNext())
-				{				
-					card.setBorder(BorderFactory.createEmptyBorder());
-					isChoose = false;
-				}
-				else if(!isChoose && GameController.playerIndexNow == 0 && card.getPlayerIndex() == controller.getPlayerIndexNext())
+
+				if(!isChoose && GameController.playerIndexNow == 0 && card.getPlayerIndex() == controller.getPlayerIndexNext())
 				{
 					cardIndex = card.getCardIndex();
 					card.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-				//	card.turnBack(false);
+					card.turnBack(false);
 					isChoose = true;
 				}
 			
@@ -423,6 +442,17 @@ public class GameFrame extends JFrame implements Observer
 		}
 		else if(obs instanceof GameController)
 		{
+			if(controller.getPlayerIndex() == 0)
+			{
+				end.setForeground(Color.RED);
+				end.setText("choose card");
+			}
+			else
+			{
+				end.setForeground(Color.BLACK);
+				end.setText("end turn");
+			}
+				
 			removeAllPic();
 			
 			controller.getState();
@@ -436,12 +466,13 @@ public class GameFrame extends JFrame implements Observer
 			{
 				end.setEnabled(false);
 				gameState.setForeground(Color.RED);
+				setAllPic();
 			}
 			else if(controller.getState().equals("Win"))
 			{
-
 				end.setEnabled(false);
 				gameState.setForeground(Color.BLUE);
+				setAllPic();
 			}
 			else
 			{
@@ -450,7 +481,7 @@ public class GameFrame extends JFrame implements Observer
 			}				
 			
 			this.validate();
-			this.repaint();
+			this.repaint(); 
 		}
 		
 	}
