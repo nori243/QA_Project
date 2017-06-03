@@ -68,11 +68,18 @@ public class CenterController
 	
 	public String[] getPileInfo(Pile pile)
 	{
-		String[] cardInfo = new String[pile.getAmountOfCard()];
-
-		cardInfo = pile.showCards().split("\n");		
+		if(pile.getAmountOfCard() != 0)
+		{
+			String[] cardInfo = new String[pile.getAmountOfCard()];
+			cardInfo = pile.showCards().split("\n");		
 		
-		return cardInfo;
+			return cardInfo;
+		}
+		else
+		{
+			return null;
+		}
+		
 	}
 	
 	public String[] getPlayerPileInfo(int playerIndex)
@@ -123,7 +130,7 @@ public class CenterController
 	public void init()
 	{
 		initial.initGame();
-		controller.addObserver(StartFrame.gameFrame);
+		controller.addObserver(StartFrame.gameFrame); 
 	}
 	
 }
