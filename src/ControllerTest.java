@@ -25,7 +25,14 @@ public class ControllerTest {
 		
 		
 		StartFrame.gameFrame = new GameFrame("user");
-			
+				
+		StartFrame.gameFrame.initSetting();
+		
+	}
+	
+	@Before
+	public void before()
+	{
 		player = new ArrayList<Player>();
 		
 		player.add(new Player("user",new Pile()));		
@@ -34,16 +41,11 @@ public class ControllerTest {
 			player.add(new AIPlayer("player"+i,new Pile()));
 		}	
 		
-		gi = GameInitial.getInstance(player);			
-		gc = GameController.getInstance(player);
-				
-		StartFrame.gameFrame.initSetting();
-		
-		
-		System.out.println("init, start player is "+GameController.playerIndexNow);
+		gi = new GameInitial(player);	
+		gi.initGame();
+		gc = new GameController(player);
+	//	System.out.println("init, start player is "+GameController.playerIndexNow);
 	}
-
-	
 	/*GameInitial*/
 
 	@Test
@@ -105,7 +107,7 @@ public class ControllerTest {
 			System.out.println("player" + i + " " + player.get(i).getAmountOfCard());
 		}
 		
-		
+		gc.turn(-1);
 		assertEquals("Win",gc.getState());	
 		
 	}	
@@ -177,6 +179,7 @@ public class ControllerTest {
 		
 		//gc.playerIsNull();
 		//assertEquals(3,gc.getPlayerNextIndex());	
+		gc.turn(-1);
 		assertEquals("Game Over",gc.getState());	
 		
 		//assertEquals("Game Over",gc.turn(-1));
@@ -187,19 +190,56 @@ public class ControllerTest {
 	/*--------State Test End----------*/
 
 	@Test
-	public void removePairTest()
+	public void removePairTest_1()
 	{	
 		assertEquals(14,player.get(GameInitial.startPlayerIndex).getAmountOfCard());
-		System.out.println(player.get(GameController.playerIndexNow).getName() + " : \n" + player.get(GameController.playerIndexNow).showCard());
 		assertTrue(player.get(GameController.playerIndexNow).hasPair());
 		
 		gc.removePair(GameController.playerIndexNow);
 		
-		System.out.println(player.get(GameController.playerIndexNow).getName() + " : \n" + player.get(GameController.playerIndexNow).showCard());
-		System.out.println(player.get(GameController.playerIndexNow).getAmountOfCard());
 		assertFalse(player.get(GameController.playerIndexNow).hasPair());
 	}	
-
+	
+	@Test //no pair
+	public void removePairTest_2()
+	{	
+		for(int i = 0;i < 4 ;i++)
+		{
+			for(int j = 0;j < player.get(i).getAmountOfCard()-1;)
+			{
+				Card card = player.get(i).getCard(j); 
+				player.get(i).removeCard(card);
+			}
+			assertEquals(1,player.get(i).getAmountOfCard());
+		}	
+		
+		for(int i = 0; i < 4 ; i++)
+		{
+			gc.removePair(i);
+			assertEquals(1,player.get(i).getAmountOfCard());	
+		}		
+	} 
+	
+	@Test //is empty
+	public void removePairTest_3()
+	{	
+		for(int i = 0;i < 4 ;i++)
+		{
+			for(int j = 0;j < player.get(i).getAmountOfCard();)
+			{
+				Card card = player.get(i).getCard(j); 
+				player.get(i).removeCard(card);
+			}
+			assertEquals(0,player.get(i).getAmountOfCard());
+		}	
+		
+		for(int i = 0; i < 4 ; i++)
+		{
+			gc.removePair(i);
+			assertEquals(0,player.get(i).getAmountOfCard());	
+		}		
+	} 
+	
 	
 	@Test
 	public void ChangePlayerTest()
@@ -277,11 +317,29 @@ public class ControllerTest {
 		assertTrue(player.get(playerNextIndex).getCardIndex(card) == -1);
 	}
 	
-	@After
-	public void funEnd()
-	{		
-		gi.initGame();
-		
+	@Test
+	public void AIChooseTest()
+	{
+		GameController.playerIndexNow = 1;		
+		assertTrue(gc.AIChooseCard() < player.get(gc.getPlayerNextIndex()).getAmountOfCard());
+		assertTrue(gc.AIChooseCard() >= 0);
+	}
+	
+	@Test //user
+	public void getChooseIndexTest_1()
+	{
+		GameController.playerIndexNow = 0;
+		gc.turn(1);
+		assertEquals(1,gc.getChooseIndex());
+	}
+	
+	@Test //AI
+	public void getChooseIndexTest_2()
+	{
+		GameController.playerIndexNow = 1;
+		int num = gc.AIChooseCard();
+		gc.turn(num);
+		assertEquals(num,gc.getChooseIndex());
 	}
 	
 	@AfterClass
