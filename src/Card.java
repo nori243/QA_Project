@@ -29,9 +29,14 @@ public class Card
 		else
 		{
 			suit = 0;
+			this.suit = "joker";
 		}
 		
-		if(num > 0 && num <= 13)
+		if(suit == 0)
+		{
+			this.num = 0;
+		}
+		else if(num > 0 && num <= 13)
 		{
 			this.num = num;
 		}
