@@ -17,7 +17,6 @@ public class Pile
 	
 	}
 	
-	/*TODO any else method to do init?*/
 	public void init()
 	{
 		removeAll();
