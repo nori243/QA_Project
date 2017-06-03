@@ -12,10 +12,10 @@ public class GameInitial
 	private String name = "user";
 	private ArrayList<Player> player;
 	
-	private GameInitial(ArrayList<Player> player)
+	public GameInitial(ArrayList<Player> player)
 	{
 		this.player = player;
-		this.initGame();			
+		this.initGame();			 
 	}
 	
 	public static GameInitial getInstance(ArrayList<Player> player)
@@ -31,6 +31,7 @@ public class GameInitial
 	
 	public void initGame()
 	{		
+		CenterController.playerNumber = 4;
 		for(int i = 0;i < CenterController.playerNumber ;i++)
 		{
 			player.get(i).removeAllCard();
@@ -41,6 +42,7 @@ public class GameInitial
 		chooseStartPlayer();
 		chooseOrder();
 		dealing();
+		
 	}
 	
 
