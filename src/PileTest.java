@@ -151,6 +151,8 @@ public class PileTest {
 	
 	/*-----getPairIndexTest------*/
 	
+	
+	
 	@Test // no pair
 	public void getPairIndexTest_1()
 	{
@@ -251,6 +253,14 @@ public class PileTest {
 
 		assertEquals(-1,pile.getPairIndex(card_1));	
 		assertEquals(-1,pile.getPairIndex(card_2));	
+	}
+	
+	@Test // empty
+	public void getPairIndexTest_8()
+	{
+		Card card_1 = new Card(1,1);
+		
+		assertEquals(-1,pile.getPairIndex(card_1));
 	}
 	
 	
@@ -474,5 +484,16 @@ public class PileTest {
 		pile.shufflingCard();
 		System.out.println(pile.showCards());
 	}
-
+	
+	/*--Show Test--*/
+	@Test
+	public void  showCardTest()
+	{
+		Card card_1 = new Card(1,1);
+		
+		assertEquals("empty",pile.showCards());		
+		pile.addCard(card_1);				
+		assertEquals("spades 1\n",pile.showCards());		
+	}
+	
 }
