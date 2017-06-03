@@ -13,13 +13,13 @@ public class GameController extends Observable
 	private String gameState = "";
 	private int cardIndex = -1;
 
-	private GameController(ArrayList<Player> player)
+	public GameController(ArrayList<Player> player)
 	{
 		this.player = player;
 		playerIndexNow = GameInitial.startPlayerIndex;
 		gameState = "";
 		
-	}
+	} 
 	
 	public static GameController getInstance(ArrayList<Player> player)
 	{
@@ -28,16 +28,12 @@ public class GameController extends Observable
 			uniqueGC = new GameController(player);
 		}
 		
-		uniqueGC.addObserver(StartFrame.gameFrame);
-		
 		return uniqueGC;
 	}
-
+	
 	
 	public String getState()
 	{
-//		changeGameState();
-		
 		return gameState;
 	}
 	
@@ -63,8 +59,6 @@ public class GameController extends Observable
 		//TODO TEST
 		int index = ((AIPlayer)player.get(playerIndexNow)).autoPlay(player.get(getPlayerNextIndex()).getAmountOfCard());
 		
-		this.setChanged();
-		this.notifyObservers();
 		return index;
 		
 		
@@ -98,21 +92,6 @@ public class GameController extends Observable
 		index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
 		index = index % CenterController.playerNumber;
 		
-		while(gameState.equals(""))
-		{
-			if(player.get(index).getAmountOfCard() <= 0)
-			{
-				//TODO зя
-				index = (playerIndexNow + clock)% CenterController.playerNumber + CenterController.playerNumber;
-				index = index % CenterController.playerNumber;
-				System.out.println("player " + index + " " + player.get(index).getAmountOfCard());
-			}
-			else
-				break;
-			//
-			changeGameState();
-		}
-
 		
 		return index;
 	}
