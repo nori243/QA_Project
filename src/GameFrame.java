@@ -22,9 +22,20 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-//TODO 翻牌 自動 顯示 紅線
+//TODO 翻牌 自動 顯示 紅線 http://paletton.com/palette.php?uid=72U0-0kmjFlwZeAuav7eKRe34%2Bu
 public class GameFrame extends JFrame implements Observer
 {
+	/*---Color---*/
+	
+	public static final Color BACKGROUND = new Color(64, 211, 103);
+	public static final Color BACKGROUND_LIGHT = new Color(127, 235, 155);
+	public static final Color TEXT = new Color(4, 50, 74);
+	public static final Color WARN = new Color(248, 41, 14);
+	public static final Color WHITE = new Color(230, 254, 236);
+	public static final Color BLUE = new Color(65, 148, 192);
+	
+	/*------*/
+	
 	public static final int PLAYER_NUM = 4;
 	
 	private String title = "Joker";
@@ -42,6 +53,7 @@ public class GameFrame extends JFrame implements Observer
 	private JPanel user;
 	private JPanel centerContent;
 	private JPanel[] content = new JPanel[PLAYER_NUM];
+	private JPanel cond ;
 	
 	/*--text--*/
 	private FormatLabel gameStateText;
@@ -105,6 +117,7 @@ public class GameFrame extends JFrame implements Observer
 	{
 		container = new JPanel();
 		container.setSize(width-(width/25), height);
+		container.setBackground(BACKGROUND);
 		setPanel();
 		setCondPanel();
 		
@@ -117,6 +130,8 @@ public class GameFrame extends JFrame implements Observer
 		container.add(centerContent, BorderLayout.CENTER);	
 
 		setOutsidePanel();
+		setColor();
+		changePlayerNameLabel();
 	}
 
 	private void setOutsidePanel()
@@ -124,13 +139,14 @@ public class GameFrame extends JFrame implements Observer
 		outside = new JPanel(new BorderLayout());
 		outside.add(container,BorderLayout.CENTER);
 		outside.add(condPanel,BorderLayout.EAST);
+		outside.setBackground(BACKGROUND);
 		
 		this.add(outside);
 	}
 	
 	private void setCondPanel()
 	{
-		JPanel cond = new JPanel(new GridLayout(4,2));
+		cond = new JPanel(new GridLayout(4,2));
 		condPanel = new JPanel(new BorderLayout());
 		condPanel.setPreferredSize(new Dimension(200,0));
 		condPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
@@ -138,12 +154,12 @@ public class GameFrame extends JFrame implements Observer
 		playerNowText = new FormatLabel("目前玩家:");
 		nextPlayerText = new FormatLabel("下一個玩家:");
 		userCardNumText = new FormatLabel("剩餘牌數:");
-		gameStateText = new FormatLabel(controller.getState());
+		gameStateText = new FormatLabel("");
 		
-		playerNow = new FormatLabel(controller.player.get(controller.getPlayerIndex()).getName(),16);
-		nextPlayer = new FormatLabel(controller.player.get(controller.getPlayerIndexNext()).getName(),16);
-		userCardNum = new FormatLabel(String.valueOf(controller.player.get(0).getAmountOfCard()),16);
-		gameState = new FormatLabel(controller.getState(),16);
+		playerNow = new FormatLabel(controller.player.get(controller.getPlayerIndex()).getName());
+		nextPlayer = new FormatLabel(controller.player.get(controller.getPlayerIndexNext()).getName());
+		userCardNum = new FormatLabel(String.valueOf(controller.player.get(0).getAmountOfCard()));
+		gameState = new FormatLabel("");
 		
 		setButton();		
 		
@@ -193,9 +209,65 @@ public class GameFrame extends JFrame implements Observer
 		content[3].add(player3NameLabel,BorderLayout.NORTH);
 		content[3].add(player_3,BorderLayout.CENTER);
 		
+		
 		setAllPic();
 		
 		//TODO 字型/color
+	}
+	
+	private void setColor()
+	{
+		content[0].setBackground(BACKGROUND);
+		content[1].setBackground(BACKGROUND);
+		content[2].setBackground(BACKGROUND);
+		content[3].setBackground(BACKGROUND);
+
+		userNameLabel.setBackground(BACKGROUND);
+		player1NameLabel.setBackground(BACKGROUND);
+		player2NameLabel.setBackground(BACKGROUND);
+		player3NameLabel.setBackground(BACKGROUND);
+		
+		centerContent.setBackground(BACKGROUND);
+		center.setBackground(BACKGROUND);
+		player_1.setBackground(BACKGROUND); 
+		player_2.setBackground(BACKGROUND); 
+		player_3.setBackground(BACKGROUND);
+		user.setBackground(BACKGROUND); 			
+		
+		condPanel.setBackground(BACKGROUND_LIGHT); 
+		
+		playerNowText.setBackground(BACKGROUND_LIGHT); 
+		nextPlayerText.setBackground(BACKGROUND_LIGHT); 
+		userCardNumText.setBackground(BACKGROUND_LIGHT); 
+		gameStateText.setBackground(BACKGROUND_LIGHT); 
+		
+		playerNow.setBackground(BACKGROUND_LIGHT); 
+		nextPlayer.setBackground(BACKGROUND_LIGHT); 
+		userCardNum.setBackground(BACKGROUND_LIGHT); 
+		gameState.setBackground(BACKGROUND_LIGHT); 
+		cond.setBackground(BACKGROUND_LIGHT); 
+		
+		
+		setTextColor();
+	}
+	
+	private void setTextColor()
+	{
+		userNameLabel.setForeground(TEXT);
+		player1NameLabel.setForeground(TEXT);
+		player2NameLabel.setForeground(TEXT);
+		player3NameLabel.setForeground(TEXT);			
+		
+		playerNowText.setForeground(TEXT); 
+		nextPlayerText.setForeground(TEXT); 
+		userCardNumText.setForeground(TEXT); 
+		gameStateText.setForeground(TEXT); 
+		
+		playerNow.setForeground(TEXT); 
+		nextPlayer.setForeground(TEXT); 
+		userCardNum.setForeground(TEXT);  
+		gameState.setForeground(TEXT); 
+		
 	}
 	
 	private void setNameLabel()
@@ -209,6 +281,7 @@ public class GameFrame extends JFrame implements Observer
 		player1NameLabel.setHorizontalAlignment(JLabel.CENTER);	
 		player2NameLabel.setHorizontalAlignment(JLabel.CENTER);
 		player3NameLabel.setHorizontalAlignment(JLabel.CENTER);
+		
 	}
 	
 	private void AIControl()
@@ -218,7 +291,6 @@ public class GameFrame extends JFrame implements Observer
 			System.out.println("player index " + controller.getPlayerIndex());
 			
 			cardIndex = controller.AIChooseCard();
-				//	player3.setText("player index " + controller.getPlayerIndex());
 			
 			try 
 			{	
@@ -243,12 +315,12 @@ public class GameFrame extends JFrame implements Observer
 		end = new JButton("end turn");
 		if(controller.getPlayerIndex() == 0)
 		{
-			end.setForeground(Color.RED);
+			end.setForeground(WARN);
 			end.setText("choose card");
 		}
 		else
 		{
-			end.setForeground(Color.BLACK);
+			end.setForeground(TEXT);
 			end.setText("end turn");
 		}
 		
@@ -275,7 +347,7 @@ public class GameFrame extends JFrame implements Observer
 		end.setPreferredSize(new Dimension(0,100));
 		
 		end.setBorder(BorderFactory.createRaisedBevelBorder());
-		end.setBackground(Color.white);
+		end.setBackground(WHITE);
 		end.setFont(new Font("Dialog", Font.BOLD , 16));
 		
 	}
@@ -390,7 +462,7 @@ public class GameFrame extends JFrame implements Observer
 				if(!isChoose && GameController.playerIndexNow == 0 && card.getPlayerIndex() == controller.getPlayerIndexNext())
 				{
 					cardIndex = card.getCardIndex();
-					card.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					card.setBorder(BorderFactory.createLineBorder(WARN, 2));
 					card.turnBack(false);
 					isChoose = true;
 				}
@@ -402,7 +474,7 @@ public class GameFrame extends JFrame implements Observer
 			{
 				
 				if(!isChoose && GameController.playerIndexNow == 0 && card.getPlayerIndex() == controller.getPlayerIndexNext())
-					card.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					card.setBorder(BorderFactory.createLineBorder(WARN, 2));
 			}
 
 			@Override
@@ -430,6 +502,41 @@ public class GameFrame extends JFrame implements Observer
 		player_3.removeAll();
 		center.removeAll();
 	}
+	
+	private void changePlayerNameLabel()
+	{
+		switch(controller.getPlayerIndex())
+		{
+			case 0:
+				userNameLabel.setForeground(WARN);
+				player1NameLabel.setForeground(TEXT);
+				player2NameLabel.setForeground(TEXT);
+				player3NameLabel.setForeground(TEXT);
+				break;
+				
+			case 1:
+				player1NameLabel.setForeground(WARN);
+				userNameLabel.setForeground(TEXT);
+				player2NameLabel.setForeground(TEXT);
+				player3NameLabel.setForeground(TEXT);
+				break;
+				
+			case 2:
+				player2NameLabel.setForeground(WARN);
+				userNameLabel.setForeground(TEXT);
+				player1NameLabel.setForeground(TEXT);
+				player3NameLabel.setForeground(TEXT);
+				break;
+				
+			case 3:
+				player3NameLabel.setForeground(WARN);
+				userNameLabel.setForeground(TEXT);
+				player1NameLabel.setForeground(TEXT);
+				player2NameLabel.setForeground(TEXT);
+				break;
+		}	
+		
+	}
 
 	@Override
 	public void update(Observable obs, Object arg) 
@@ -444,12 +551,12 @@ public class GameFrame extends JFrame implements Observer
 		{
 			if(controller.getPlayerIndex() == 0)
 			{
-				end.setForeground(Color.RED);
+				end.setForeground(WARN);
 				end.setText("choose card");
 			}
 			else
 			{
-				end.setForeground(Color.BLACK);
+				end.setForeground(TEXT);
 				end.setText("end turn");
 			}
 				
@@ -461,21 +568,22 @@ public class GameFrame extends JFrame implements Observer
 			nextPlayer.setText(controller.player.get(controller.getPlayerIndexNext()).getName());
 			userCardNum.setText(String.valueOf(controller.player.get(0).getAmountOfCard()));
 			gameState.setText(controller.getState());			
+			changePlayerNameLabel();
 			
-			if(controller.getState().equals("Game Over") )
+			if(controller.getState().equals("Game Over"))
 			{
 				end.setEnabled(false);
-				gameState.setForeground(Color.RED);
+				gameState.setForeground(WARN);
 				setAllPic();
 			}
 			else if(controller.getState().equals("Win"))
 			{
 				end.setEnabled(false);
-				gameState.setForeground(Color.BLUE);
+				gameState.setForeground(BLUE);
 				setAllPic();
 			}
 			else
-			{
+			{				
 				setAllPic();
 				setCenterPanel(controller.getPlayerIndexNext());
 			}				

@@ -71,7 +71,50 @@ public class StartInfoFrame extends JFrame
 		center.add(ok);
 		center.add(cancel);
 		
+
+		setColor();
+		
 		this.add(center);
+	}
+	
+	private void setColor()
+	{
+		center.setBackground(GameFrame.BACKGROUND_LIGHT);
+		
+		user.setBackground(GameFrame.BACKGROUND_LIGHT);
+		userName.setBackground(GameFrame.BACKGROUND_LIGHT);		
+		
+		firstPlayer.setBackground(GameFrame.BACKGROUND_LIGHT);
+		turn.setBackground(GameFrame.BACKGROUND_LIGHT);	
+		
+		firstPlayerText.setBackground(GameFrame.BACKGROUND_LIGHT);
+		turnText.setBackground(GameFrame.BACKGROUND_LIGHT);		
+		
+		gameInfo.setBackground(GameFrame.BACKGROUND_LIGHT);
+		gameInfoText.setBackground(GameFrame.BACKGROUND_LIGHT);	
+		
+		ok.setBackground(GameFrame.WHITE);
+		cancel.setBackground(GameFrame.WHITE);
+		
+		setTextColor();
+	}
+	
+	private void setTextColor()
+	{
+		user.setForeground(GameFrame.TEXT);
+		userName.setForeground(GameFrame.TEXT);
+		
+		firstPlayer.setForeground(GameFrame.TEXT);
+		turn.setForeground(GameFrame.TEXT);
+		
+		firstPlayerText.setForeground(GameFrame.TEXT);
+		turnText.setForeground(GameFrame.TEXT);	
+		
+		gameInfo.setForeground(GameFrame.TEXT);
+		gameInfoText.setForeground(GameFrame.TEXT);	
+		
+		ok.setForeground(GameFrame.TEXT);
+		cancel.setForeground(GameFrame.WARN);
 	}
 	
 	private void setLabel()
@@ -94,8 +137,6 @@ public class StartInfoFrame extends JFrame
 		gameInfoText = new FormatLabel("¹CÀ¸¸ê°T : ",16);
 		gameInfo = new JTextArea(info);
 		gameInfo.setEditable(false);
-	/*	gameInfo.setForeground(Color.decode("#99e1e5"));
-		gameInfo.setBackground(Color.decode("#293c51"));*/
 		gameInfo.setFont(new Font("Dialog", Font.BOLD , 14));
 		gameInfo.setLineWrap(true);
 		gameInfo.setWrapStyleWord(true);

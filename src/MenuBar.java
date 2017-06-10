@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-//http://www.programgo.com/article/57851754685/;jsessionid=B60650312179CDB8732892F88E9492C9
 
 public class MenuBar extends JMenuBar
 {
@@ -32,7 +31,10 @@ public class MenuBar extends JMenuBar
         add(start);
         add(end);
         
-        start.addMenuListener(new MenuListener(){
+        this.setBackground(GameFrame.WHITE);
+        
+        start.addMenuListener(new MenuListener()
+        {
 
 			@Override
 			public void menuSelected(MenuEvent e)

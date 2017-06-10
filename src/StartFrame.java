@@ -41,18 +41,28 @@ public class StartFrame extends JFrame
 		setLabel();
 		setEdit();
 		setButton();
+		setColor();
 		setPanel();
+		
 	}
 	
 	private void setPanel() 
 	{
-		JLabel temp = new JLabel(" ");
+		JLabel temp = new JLabel(" ");		
+		temp.setOpaque(true);
+		temp.setBackground(GameFrame.BACKGROUND_LIGHT);
 		
 		this.add(msg);
 		this.add(temp);		
 		this.add(enterName);
 		this.add(enter);
-		this.add(errorMsg);		
+		this.add(errorMsg);	
+		
+		temp = new JLabel(" ");		
+		temp.setOpaque(true);
+		temp.setBackground(GameFrame.BACKGROUND_LIGHT);	
+		this.add(temp);		
+
 	}
 
 	private void setEdit()
@@ -61,9 +71,33 @@ public class StartFrame extends JFrame
 		enterName.setFont(new Font("Dialog", Font.BOLD , 14));
 		setEditMouseListener();
 		setEditKeyListener();
-		
-
 	}
+	
+	private void setColor()
+	{
+		
+		enter.setOpaque(true);
+		
+		enterName.setOpaque(true);
+		errorMsg.setOpaque(true);
+		msg.setOpaque(true);
+		
+		enter.setBackground(GameFrame.WHITE);	
+		enterName.setBackground(GameFrame.WHITE);
+		errorMsg.setBackground(GameFrame.BACKGROUND_LIGHT);
+		msg.setBackground(GameFrame.BACKGROUND_LIGHT);
+		this.setBackground(GameFrame.BACKGROUND_LIGHT);
+		setTextColor();
+	}
+	
+	private void setTextColor()
+	{
+		enter.setForeground(GameFrame.TEXT);
+		errorMsg.setForeground(GameFrame.WARN);
+		enterName.setForeground(GameFrame.TEXT);
+		msg.setForeground(GameFrame.TEXT);
+	}
+	
 	
 	private void setEditKeyListener()
 	{
@@ -129,7 +163,6 @@ public class StartFrame extends JFrame
 		msg = new FormatLabel(info,14);
 		
 		errorMsg = new FormatLabel("");
-		errorMsg.setForeground(Color.red);
 		
 	}	
 	
@@ -138,7 +171,6 @@ public class StartFrame extends JFrame
 		final String enterName = "enter";
 		enter = new JButton(enterName);
 		enter.setBorder(BorderFactory.createRaisedBevelBorder());
-		enter.setBackground(Color.white);
 		enter.setFont(new Font("Dialog", Font.BOLD , 16));
 		
 		enter.addActionListener(new ActionListener()
@@ -158,8 +190,7 @@ public class StartFrame extends JFrame
 		
 		if(!enterString.equals(""))
 		{			
-			gameFrame = new GameFrame(enterString);	
-			
+			gameFrame = new GameFrame(enterString);				
 			
 			StartInfoFrame frame = new StartInfoFrame(enterString);
 			

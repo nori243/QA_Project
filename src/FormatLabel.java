@@ -8,7 +8,7 @@ public class FormatLabel extends JLabel
 	public FormatLabel(String text)
 	{
 		super(text);
-		this.setFont(new Font("Dialog", Font.BOLD , 12));
+		this.setFont(new Font("Dialog", Font.BOLD , 16));
 	}
 	
 	public FormatLabel(String text,int size)

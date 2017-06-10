@@ -45,6 +45,8 @@ public class RestartFrame extends JFrame
 		initPanel();
 		initButton();
 		
+		setColor();
+		
 		mainPanel.add(textLabel);
 		mainPanel.add(buttonPanel);
 		buttonPanel.add(yes);
@@ -56,7 +58,6 @@ public class RestartFrame extends JFrame
 	private void initPanel() 
 	{
 		mainPanel = new JPanel(new GridLayout(2,1));
-		//mainPanel.setBackground(Color.WHITE);
 		buttonPanel = new JPanel(new GridLayout(1,2));
 	}	
 	
@@ -98,6 +99,23 @@ public class RestartFrame extends JFrame
 				RestartFrame.this.dispose();				
 			}
 		});
+	}
+	
+	private void setColor()
+	{
+		yes.setBackground(GameFrame.WHITE);
+		no.setBackground(GameFrame.WHITE);
+		
+		mainPanel.setBackground(GameFrame.BACKGROUND_LIGHT);
+		buttonPanel.setBackground(GameFrame.BACKGROUND_LIGHT);
+		
+		setTextColor();
+	}
+	
+	private void setTextColor()
+	{
+		yes.setForeground(GameFrame.WARN);
+		no.setForeground(GameFrame.TEXT);
 	}
 
 }

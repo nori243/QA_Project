@@ -44,6 +44,8 @@ public class EndFrame extends JFrame
 		initPanel();
 		initButton();
 		
+		setColor();
+		
 		mainPanel.add(textLabel);
 		mainPanel.add(buttonPanel);
 		buttonPanel.add(yes);
@@ -98,5 +100,22 @@ public class EndFrame extends JFrame
 		});
 	}
 	
+	private void setColor()
+	{
+		yes.setBackground(GameFrame.WHITE);
+		no.setBackground(GameFrame.WHITE);
+		
+		mainPanel.setBackground(GameFrame.BACKGROUND_LIGHT);
+		buttonPanel.setBackground(GameFrame.BACKGROUND_LIGHT);
+		
+		setTextColor();
+	}
+	
+	private void setTextColor()
+	{
+		yes.setForeground(GameFrame.WARN);
+		no.setForeground(GameFrame.TEXT);
+	}
+
 
 }
