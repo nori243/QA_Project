@@ -25,7 +25,7 @@ public class PileTest {
 		assertEquals(1,pile.getAmountOfCard());
 	}
 		
-	/*---addCard & getCatd Test----*/
+	/*---addCard & getCard Test----*/
 	
 	@Test //add one card
 	public void addCardTest_1()
@@ -48,7 +48,7 @@ public class PileTest {
 	}
 	
 	@Test(expected = Exception.class) //add one card and get the card index = 2
-	public void addCardTest_2() throws Exception
+	public void getCardTest_1() throws Exception
 	{
 		Card card = new Card(1,1);
 		assertEquals(0,pile.getAmountOfCard());
@@ -226,7 +226,7 @@ public class PileTest {
 	@Test //two pair (index 0 2 / 1 3)
 	public void getPairIndexTest_6()
 	{
-		Card card_1 = new Card(1,1);
+		Card card_1 = new Card(1,1); 
 		Card card_2 = new Card(2,2);
 		Card card_3 = new Card(2,1);
 		Card card_4 = new Card(3,2);

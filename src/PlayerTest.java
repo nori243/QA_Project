@@ -75,7 +75,6 @@ public class PlayerTest
 	{
 		assertEquals(0,p.getAmountOfCard());
 		p.addCard(new Card(1,1));
-		user.setPile(p);
 		assertEquals(1,p.getAmountOfCard());
 	}
 
