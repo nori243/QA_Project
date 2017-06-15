@@ -119,6 +119,7 @@ public class PlayerTest
 	public void testGetCard() 
 	{
 		Card card = new Card(1,1);
+		assertEquals(null,user.getCard(0));
 		p.addCard(card);
 		
 		assertEquals(card,user.getCard(0));
