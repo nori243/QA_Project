@@ -7,7 +7,7 @@ import org.junit.Test;
 public class CardTest 
 {
 	/*---initTest---*/
-	
+	 
 	@Test //spades
 	public void initTest_1()
 	{
@@ -193,6 +193,15 @@ public class CardTest
 		assertTrue(card_1.IsSuitSame(card_2));
 	}
 	
+	@Test //diff
+	public void isSuitSameTest_6() 
+	{
+		Card card_1 = new Card(1,1);
+		Card card_2 = new Card(2,1);
+				
+		assertFalse(card_1.IsSuitSame(card_2));
+	}
+	
 	/*---isPairTest---*/
 		
 	@Test // diff num , same suit
@@ -289,13 +298,7 @@ public class CardTest
 	@Test //joker
 	public void getSuitTest_5() 
 	{
-		Card card = new Card(0,1);
-		assertEquals("joker",card.getSuit());
-		
-		card = new Card(0,5);
-		assertEquals("joker",card.getSuit());
-		
-		card = new Card(0,13);
+		Card card = new Card(0,0);
 		assertEquals("joker",card.getSuit());
 	}
 
